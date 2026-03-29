@@ -79,8 +79,6 @@
                                             {% for category in categories %}
                                             <li class="active"><a href="#" class="menu-category-link"> {{category}} </a></li>
                                             {% endfor %}
-											
-											
 										</ul>
 									</div>
 								</div>
@@ -89,7 +87,6 @@
 								<div class="tabs-holder horizontal">
 									<ul class="stickynav-tabs nav nav-tabs">
 										<li class="active"><a data-toggle="tab" href="#home"><i class="icon- icon-room_service"></i>Menu</a></li>
-										
 									</ul>
 									<div class="tab-content">
 										<div id="home" class="tab-pane in active">
@@ -98,10 +95,8 @@
 												<div id="menu-item-list-6272" class="menu-itam-list">
 													
                                                     {% for category in categories %}
-                                                    
-                                                   
 													
-													<div class="element-title" id="menu-category-2">
+													<div class="element-title" id="menu-category-{{category.id}}">
 														<h5 class="text-color">{{category}}</h5>
 														<span>{{category.description}}</span>
 													</div>
@@ -115,17 +110,37 @@
 															</div>
 															<div class="price-holder">
 																<span class="price">&#8377;{{food.price}}</span>
-																<a href="#" class="restaurant-add-menu-btn"><i class="icon-plus4 text-color"></i></a>
-																<span id="add-menu-loader-10"></span>
+
+																<!-- DECREASE -->
+																<a href="javascript:void(0)" 
+																class="decrease_cart"
+																data-id="{{food.id}}"
+																data-url="{% url 'decrease_cart' food.id %}"
+																style="margin-right:15px;">
+																	<i class="icon-minus text-color"></i>
+																</a>
+
+																<!-- QUANTITY: set to 0, populated by JS on load -->
+																<label id="qty-{{food.id}}">0</label>
+
+																<!-- ADD -->
+																<a href="javascript:void(0)" 
+																class="add_to_cart"
+																data-id="{{food.id}}"
+																data-url="{% url 'add_to_cart' food.id %}">
+																	<i class="icon-plus4 text-color"></i>
+																</a>
+
+																<span id="add-menu-loader-{{food.id}}"></span>
 															</div>
 														</li>
 														{% endfor %}
 													</ul>
 													{% endfor %}
+
 												</div>
 											</div>
 										</div>
-										
 									</div>
 								</div>
 							</div>
@@ -135,5 +150,16 @@
 				</div>
 			</div>
 			<!-- Main Section End -->
+
+<!-- Populate cart quantities from server on page load -->
+<script>
+var cartQuantities = {{ cart_quantities_json }};
+document.addEventListener("DOMContentLoaded", function(){
+    for(var foodId in cartQuantities){
+        var label = document.getElementById('qty-' + foodId);
+        if(label) label.innerText = cartQuantities[foodId];
+    }
+});
+</script>
 
 {% endblock %}

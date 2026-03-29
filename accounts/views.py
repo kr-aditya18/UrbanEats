@@ -29,7 +29,7 @@ def check_role_customer(user):
 def registerUser(request):
     if request.user.is_authenticated:
         messages.warning(request,"You are already logged in")
-        return redirect('dashboard')
+        return redirect('myAccount')
     elif request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():

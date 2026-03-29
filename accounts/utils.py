@@ -7,16 +7,15 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.conf import settings
 def detectUser(user):
+    if user.is_superuser:
+        return '/admin/'   # optional but useful
+
     if user.role == 1:
-        redirectUrl = 'vendordashboard'
-        return redirectUrl
+        return 'vendordashboard'
     elif user.role == 2:
-        redirectUrl1 = 'custdashboard'
-        return redirectUrl1
-    elif user.role == None and user.is_superadmin:
-        redirectUrl = '/admin'
-        
-        return redirectUrl
+        return 'custdashboard'
+
+    return 'myAccount'
         
 # helper function to send mail 
 # def send_verification_email(request,user,email):
