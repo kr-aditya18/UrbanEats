@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import User, UserProfile
 from accounts.utils import send_notification
-
+from datetime import time
 class Vendor(models.Model):
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     user_profile = models.OneToOneField(UserProfile, related_name='UserProfile', on_delete=models.CASCADE)
@@ -32,3 +32,28 @@ class Vendor(models.Model):
 
         # FIXED: moved outside the if block so new vendors are saved too
         super().save(*args, **kwargs)
+   
+DAYS = [
+    (1,("Monday")),
+    (2,("Tuesday")),
+    (3,("Wednesday")),
+    (4,("Thrusday")),
+    (5,("Friday")),
+    (6,("Saterday")),
+    (7,("Sunday")),
+]     
+
+# HOURS_
+HOUR_OF_DAY_24 = [(time(h,m).strftime('%I:%M %p'),time(h,m).strftime('%I:%M %p'))for h in range(0,24) for m in range(0,31)]
+class OpeningHour(models.Model):
+    vendor    = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    day       = models.IntegerField(choices=DAYS)
+    from_hour = models.CharField(choices=HOUR_OF_DAY_24, max_length=10, blank=True)
+    to_hour   = models.CharField(choices=HOUR_OF_DAY_24, max_length=10, blank=True)
+    is_closed = models.BooleanField(default=False)
+ 
+    def __str__(self):
+        return f"{self.get_day_display()} | {self.from_hour} – {self.to_hour}"
+ 
+    class Meta:
+        ordering = ['day', 'from_hour']

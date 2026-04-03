@@ -1,196 +1,272 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+
+<style>
+  /* ── Open / Closed ribbon badge ── */
+  .restaurant-status {
+    position: absolute;
+    top: 0; left: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 0 0 8px 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .restaurant-status::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .restaurant-status.open {
+    background: rgba(39, 174, 96, 0.92);
+    color: #fff;
+  }
+  .restaurant-status.open::before {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+  }
+  .restaurant-status.close {
+    background: rgba(192, 57, 43, 0.88);
+    color: #fff;
+  }
+  .restaurant-status.close::before {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+  }
+
+  /* ensure img-holder is relative so badge positions correctly */
+  .listing .img-holder,
+  .list-post .img-holder {
+    position: relative;
+  }
+</style>
+
 <div class="main-section">
 
-    <!-- Main Search Start -->
-    <div class="page-section nopadding cs-nomargin" style="padding-top: 200px; padding-bottom: 150px; margin-bottom: 0px; background: url({% static 'extra-images/bg-image1.jpg' %}) no-repeat center / cover;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="element-title">
-                        <h1 style="font-size: 40px; color: #505050; text-transform: uppercase; line-height: 50px; margin-bottom: 25px; text-align:center;">
-                            We are in the business of food<br>our restaurants do
-                        </h1>
-                        <p style="font-size: 18px; letter-spacing: 1px; color: #505050; text-align:center;">
-                            Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="main-search fancy bg-holder">
-                        <form action="{% url 'search' %}" method="GET">
-                            <div class="row">
-
-                                <!-- Restaurant Name -->
-                                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
-                                    <div class="field-holder">
-                                        <input type="text" name="rest_name" id="id_rest_name"
-                                               placeholder="Restaurant name"
-                                               value="{{ request.GET.rest_name }}">
-                                    </div>
-                                </div>
-
-                                <!-- Location with autocomplete -->
-                                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
-                                    <div class="field-holder" style="position:relative;">
-                                        <i class="icon-location" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#999; z-index:1; pointer-events:none;"></i>
-                                        <input type="text" name="address" id="id_search_location"
-                                               placeholder="City or area"
-                                               value="{{ request.GET.address }}"
-                                               autocomplete="off"
-                                               style="padding-left:32px; padding-right:42px;">
-                                        <!-- hidden fields auto-filled by JS -->
-                                        <input type="hidden" name="city" id="id_search_city">
-                                        <input type="hidden" name="lat"  id="id_search_lat">
-                                        <input type="hidden" name="lng"  id="id_search_lng">
-
-                                        <!-- GPS detect button -->
-                                        <button type="button" id="home-detect-btn"
-                                                title="Use my current location"
-                                                style="position:absolute; right:10px; top:50%; transform:translateY(-50%);
-                                                       background:#c0392b; border:none; border-radius:50%;
-                                                       width:28px; height:28px; cursor:pointer; color:#fff;
-                                                       display:flex; align-items:center; justify-content:center;
-                                                       font-size:13px; z-index:10;">
-                                            <i class="icon-target5"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Radius -->
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <select name="radius" id="radius" style="height:50px;">
-                                        <option value="" selected>Choose Radius</option>
-                                        <option value="5">5km</option>
-                                        <option value="10">10km</option>
-                                        <option value="15">15km</option>
-                                        <option value="25">25km</option>
-                                        <option value="50">50km</option>
-                                        <option value="100">100km</option>
-                                        <option value="300">300km</option>
-                                    </select>
-                                </div>
-
-                                <!-- Submit -->
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <div class="field-holder">
-                                        <input type="submit" value="Search">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
+  <!-- ── Main Search ─────────────────────────────────────────────────────── -->
+  <div class="page-section nopadding cs-nomargin"
+       style="padding-top:200px;padding-bottom:150px;margin-bottom:0;margin-top:0;
+              background:url({% static 'extra-images/bg-image1.jpg' %}) no-repeat center / cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="element-title">
+            <h1 style="font-size:40px;color:#505050;text-transform:uppercase;line-height:50px;margin-bottom:25px;text-align:center;">
+              We are in the business of food<br>our restaurants do
+            </h1>
+            <p style="font-size:18px;letter-spacing:1px;color:#505050;text-align:center;">
+              Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
+            </p>
+          </div>
         </div>
-    </div>
-    <!-- Main Search End -->
 
-    <!-- Top Restaurants Section Start -->
-    <div class="page-section nopadding cs-nomargin" style="margin-top:0; padding-top:60px; padding-bottom:0; margin-bottom:0; background:#ffffff;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="element-title align-left">
-                        <h2>Top Restaurants</h2>
-                        <p>Explore restaurants, bars, and cafés by locality</p>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right:0 !important; padding-left:0 !important;">
-                    <div class="company-logo">
-                        <ul>
-                            {% for vendor in vendors %}
-                            <li class="has-border">
-                                <figure>
-                                    {% if vendor.user_profile.profile_picture %}
-                                    <a href="{% url 'vendor_detail' vendor.vendor_slug %}">
-                                        <img src="{{ vendor.user_profile.profile_picture.url }}" class="attachment-full size-full wp-post-image" alt="{{ vendor.vendor_name }}">
-                                    </a>
-                                    {% else %}
-                                    <a href="{% url 'vendor_detail' vendor.vendor_slug %}">
-                                        <img src="{% static 'images/default-profile.png' %}" class="attachment-full size-full wp-post-image" alt="{{ vendor.vendor_name }}">
-                                    </a>
-                                    {% endif %}
-                                </figure>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Top Restaurants Section End -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="main-search fancy bg-holder">
+            <form action="{% url 'search' %}" method="GET">
+              <div class="row">
 
-    <!-- Most Popular Restaurants Start -->
-    <div class="page-section nopadding cs-nomargin" style="margin-top:0; padding-top:60px; padding-bottom:50px; margin-bottom:0; background:#ffffff;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="element-title align-center">
-                        <h2>Choose From Most Popular Restaurants</h2>
-                        <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
-                    </div>
+                <!-- Restaurant Name -->
+                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                  <div class="field-holder">
+                    <input type="text" name="rest_name" id="id_rest_name"
+                           placeholder="Restaurant name"
+                           value="{{ request.GET.rest_name }}">
+                  </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="listing fancy">
-                        <ul class="row">
-                            {% for vendor in vendors %}
-                            <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="list-post featured">
-                                    <div class="img-holder">
-                                        <figure>
-                                            <a href="{% url 'vendor_detail' vendor.vendor_slug %}">
-                                                {% if vendor.user_profile.profile_picture %}
-                                                <img src="{{ vendor.user_profile.profile_picture.url }}" class="img-thumb wp-post-image" alt="{{ vendor.vendor_name }}">
-                                                {% else %}
-                                                <img src="{% static 'images/default-profile.png' %}" class="img-thumb wp-post-image" alt="{{ vendor.vendor_name }}">
-                                                {% endif %}
-                                            </a>
-                                        </figure>
-                                        <span class="restaurant-status close">
-                                            <em class="bookmarkRibbon"></em>Close
-                                        </span>
-                                    </div>
-                                    <div class="text-holder">
-                                        <div class="post-title">
-                                            <h5>
-                                                <a href="{% url 'vendor_detail' vendor.vendor_slug %}">{{ vendor }}</a>
-                                            </h5>
-                                        </div>
-                                        {% if vendor.user_profile.city and vendor.user_profile.state and vendor.user_profile.pincode %}
-                                        <span>{{ vendor.user_profile.city }}, {{ vendor.user_profile.state }}, {{ vendor.user_profile.pincode }}</span>
-                                        {% endif %}
-                                        {% if vendor.distance_km %}
-                                        <div class="mt-1">
-                                            <span style="
-                                                background:#e8f5e9;
-                                                color:#27ae60;
-                                                font-size:11px;
-                                                font-weight:600;
-                                                padding:2px 8px;
-                                                border-radius:20px;
-                                                border:1px solid #27ae60;
-                                                display:inline-block;">
-                                                📍 {{ vendor.distance_km }} km away
-                                            </span>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+
+                <!-- Location with autocomplete -->
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                  <div class="field-holder" style="position:relative;">
+                    <i class="icon-location"
+                       style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#999;z-index:1;pointer-events:none;"></i>
+                    <input type="text" name="address" id="id_search_location"
+                           placeholder="City or area"
+                           value="{{ request.GET.address }}"
+                           autocomplete="off"
+                           style="padding-left:32px;padding-right:42px;">
+                    <input type="hidden" name="city" id="id_search_city">
+                    <input type="hidden" name="lat"  id="id_search_lat">
+                    <input type="hidden" name="lng"  id="id_search_lng">
+
+                    <!-- GPS detect button -->
+                    <button type="button" id="home-detect-btn"
+                            title="Use my current location"
+                            style="position:absolute;right:10px;top:50%;transform:translateY(-50%);
+                                   background:#c0392b;border:none;border-radius:50%;
+                                   width:28px;height:28px;cursor:pointer;color:#fff;
+                                   display:flex;align-items:center;justify-content:center;
+                                   font-size:13px;z-index:10;">
+                      <i class="icon-target5"></i>
+                    </button>
+                  </div>
                 </div>
-            </div>
+
+                <!-- Radius -->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                  <select name="radius" id="radius" style="height:50px;">
+                    <option value="" selected>Choose Radius</option>
+                    <option value="5">5km</option>
+                    <option value="10">10km</option>
+                    <option value="15">15km</option>
+                    <option value="25">25km</option>
+                    <option value="50">50km</option>
+                    <option value="100">100km</option>
+                    <option value="300">300km</option>
+                  </select>
+                </div>
+
+                <!-- Submit -->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                  <div class="field-holder">
+                    <input type="submit" value="Search">
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
         </div>
+
+      </div>
     </div>
-    <!-- Most Popular Restaurants End -->
+  </div>
+  <!-- ── /Main Search ──────────────────────────────────────────────────── -->
+
+
+  <!-- ── Top Restaurants (logo strip) ─────────────────────────────────── -->
+  <div class="page-section nopadding cs-nomargin"
+       style="margin-top:0;padding-top:60px;padding-bottom:0;margin-bottom:0;background:#ffffff;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="element-title align-left">
+            <h2>Top Restaurants</h2>
+            <p>Explore restaurants, bars, and cafés by locality</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+             style="padding-right:0 !important;padding-left:0 !important;">
+          <div class="company-logo">
+            <ul>
+              {% for vendor in vendors %}
+              <li class="has-border">
+                <figure>
+                  <a href="{% url 'vendor_detail' vendor.vendor_slug %}">
+                    {% if vendor.user_profile.profile_picture %}
+                      <img src="{{ vendor.user_profile.profile_picture.url }}"
+                           class="attachment-full size-full wp-post-image"
+                           alt="{{ vendor.vendor_name }}">
+                    {% else %}
+                      <img src="{% static 'images/default-profile.png' %}"
+                           class="attachment-full size-full wp-post-image"
+                           alt="{{ vendor.vendor_name }}">
+                    {% endif %}
+                  </a>
+                </figure>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ── /Top Restaurants ──────────────────────────────────────────────── -->
+
+
+  <!-- ── Most Popular Restaurants ──────────────────────────────────────── -->
+  <div class="page-section nopadding cs-nomargin"
+       style="margin-top:0;padding-top:60px;padding-bottom:50px;margin-bottom:0;background:#ffffff;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="element-title align-center">
+            <h2>Choose From Most Popular Restaurants</h2>
+            <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="listing fancy">
+            <ul class="row">
+
+              {% for item in vendor_list %}
+              {% with vendor=item.vendor is_open=item.is_open %}
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-post featured">
+
+                  <div class="img-holder">
+                    <figure>
+                      <a href="{% url 'vendor_detail' vendor.vendor_slug %}">
+                        {% if vendor.user_profile.profile_picture %}
+                          <img src="{{ vendor.user_profile.profile_picture.url }}"
+                               class="img-thumb wp-post-image"
+                               alt="{{ vendor.vendor_name }}">
+                        {% else %}
+                          <img src="{% static 'images/default-profile.png' %}"
+                               class="img-thumb wp-post-image"
+                               alt="{{ vendor.vendor_name }}">
+                        {% endif %}
+                      </a>
+                    </figure>
+
+                    <!-- ── Dynamic Open / Closed Badge ── -->
+                    {% if is_open %}
+                      <span class="restaurant-status open">
+                        <em class="bookmarkRibbon"></em>Open
+                      </span>
+                    {% else %}
+                      <span class="restaurant-status close">
+                        <em class="bookmarkRibbon"></em>Closed
+                      </span>
+                    {% endif %}
+                    <!-- ── /Badge ── -->
+
+                  </div><!-- /img-holder -->
+
+                  <div class="text-holder">
+                    <div class="post-title">
+                      <h5>
+                        <a href="{% url 'vendor_detail' vendor.vendor_slug %}">{{ vendor }}</a>
+                      </h5>
+                    </div>
+                    {% if vendor.user_profile.city and vendor.user_profile.state and vendor.user_profile.pincode %}
+                      <span>{{ vendor.user_profile.city }}, {{ vendor.user_profile.state }}, {{ vendor.user_profile.pincode }}</span>
+                    {% endif %}
+                    {% if vendor.distance_km %}
+                      <div class="mt-1">
+                        <span style="background:#e8f5e9;color:#27ae60;font-size:11px;font-weight:600;
+                                     padding:2px 8px;border-radius:20px;border:1px solid #27ae60;
+                                     display:inline-block;">
+                          📍 {{ vendor.distance_km }} km away
+                        </span>
+                      </div>
+                    {% endif %}
+                  </div><!-- /text-holder -->
+
+                </div><!-- /list-post -->
+              </li>
+              {% endwith %}
+              {% empty %}
+                <li><p class="text-muted" style="padding:20px;">No restaurants found.</p></li>
+              {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- ── /Most Popular Restaurants ─────────────────────────────────────── -->
 
 </div>
 {% endblock %}

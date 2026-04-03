@@ -10,6 +10,12 @@ from menu.models import Category,FoodItem
 from menu.forms import CategoryForm,FoodItemForm
 from django.template.defaultfilters import slugify
 from django.utils.text import slugify
+
+from django.http import JsonResponse
+import json
+from .models import OpeningHour, DAYS, HOUR_OF_DAY_24
+
+
 def get_vendor(request):
     vendor = Vendor.objects.get(user=request.user)
     return vendor
@@ -182,3 +188,103 @@ def delete_food(request,pk=None):
     food.delete()
     messages.success(request, 'Food Item has been deleted successfully.')
     return redirect('fooditems_by_category',food.category.id)
+
+# Add these imports at the top of vendor/views.py
+# from django.http import JsonResponse
+# import json
+# from .models import OpeningHour, DAYS, HOUR_OF_DAY_24
+
+# ─────────────────────────────────────────────
+# PASTE THESE FUNCTIONS INTO vendor/views.py
+# ─────────────────────────────────────────────
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def opening_hours(request):
+    vendor = get_vendor(request)
+    opening_hours_qs = OpeningHour.objects.filter(vendor=vendor).order_by('day', 'from_hour')
+
+    context = {
+        'opening_hours': opening_hours_qs,
+        'days': DAYS,
+        'hours': HOUR_OF_DAY_24,
+    }
+    return render(request, 'vendor/opening_hours.html', context)
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def add_opening_hour(request):
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON data.'}, status=400)
+
+    day        = data.get('day')
+    from_hour  = data.get('from_hour')
+    to_hour    = data.get('to_hour')
+    is_closed  = data.get('is_closed', False)
+
+    # Basic validation
+    if not day:
+        return JsonResponse({'status': 'error', 'message': 'Please select a day.'}, status=400)
+
+    # If day is already marked closed, don't allow adding hours
+    vendor = get_vendor(request)
+    if OpeningHour.objects.filter(vendor=vendor, day=day, is_closed=True).exists():
+        return JsonResponse({'status': 'error', 'message': 'This day is already marked as closed. Remove the closed entry first.'}, status=400)
+
+    if not is_closed:
+        if not from_hour or not to_hour:
+            return JsonResponse({'status': 'error', 'message': 'Please provide both opening and closing times.'}, status=400)
+        if from_hour >= to_hour:
+            return JsonResponse({'status': 'error', 'message': 'Opening time must be before closing time.'}, status=400)
+
+        # Check for overlapping hours on same day
+        existing = OpeningHour.objects.filter(vendor=vendor, day=day, is_closed=False)
+        for slot in existing:
+            if not (to_hour <= slot.from_hour or from_hour >= slot.to_hour):
+                return JsonResponse({
+                    'status': 'error',
+                    'message': f'This time overlaps with an existing slot ({slot.from_hour} – {slot.to_hour}).'
+                }, status=400)
+
+    oh = OpeningHour.objects.create(
+        vendor=vendor,
+        day=day,
+        from_hour=from_hour if not is_closed else '',
+        to_hour=to_hour if not is_closed else '',
+        is_closed=is_closed,
+    )
+
+    return JsonResponse({
+        'status': 'success',
+        'id': oh.id,
+        'day': oh.day,
+        'from_hour': oh.from_hour,
+        'to_hour': oh.to_hour,
+        'is_closed': oh.is_closed,
+        'message': 'Opening hours added successfully.',
+    })
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def delete_opening_hour(request, pk):
+    if request.method != 'DELETE':
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
+
+    oh = get_object_or_404(OpeningHour, pk=pk)
+
+    # Security: ensure the hour belongs to this vendor
+    vendor = get_vendor(request)
+    if oh.vendor != vendor:
+        return JsonResponse({'status': 'error', 'message': 'Permission denied.'}, status=403)
+
+    oh.delete()
+    return JsonResponse({'status': 'success', 'message': 'Time slot removed successfully.'})

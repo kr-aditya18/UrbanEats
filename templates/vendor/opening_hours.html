@@ -1,0 +1,452 @@
+{% extends 'vendor/vprofile.html' %}
+{% load static %}
+{% load vendor_filters %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  .oh-page * { box-sizing: border-box; }
+  .oh-page { font-family: 'Nunito', sans-serif; color: #2d2d2d; padding: 28px 32px 40px; }
+
+  /* ── Header ── */
+  .oh-page-header {
+    margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #f0f0f0;
+  }
+  .oh-page-header h2 {
+    font-size: 1.45rem; font-weight: 800; color: #1a1a1a;
+    margin: 0 0 6px; display: flex; align-items: center; gap: 10px;
+  }
+  .oh-icon-wrap {
+    width: 36px; height: 36px; background: linear-gradient(135deg,#c0392b,#e74c3c);
+    border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.95rem; flex-shrink: 0;
+  }
+  .oh-page-header p { margin: 0; font-size: 0.83rem; color: #999; padding-left: 46px; }
+
+  /* ── Add Card ── */
+  .oh-add-card {
+    background: #fff; border-radius: 13px; border: 1.5px solid #efefef;
+    padding: 20px 22px; margin-bottom: 26px; box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+  }
+  .oh-card-label {
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #c0392b; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .oh-card-label::after { content:''; flex:1; height:1px; background:#fde8e8; }
+
+  .oh-form-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr auto auto;
+    gap: 12px; align-items: end;
+  }
+
+  .oh-field label {
+    display: block; font-size: 0.7rem; font-weight: 700;
+    color: #777; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 6px;
+  }
+
+  /* Shared input style */
+  .oh-field select,
+  .oh-field input[type="time"] {
+    width: 100%; border: 1.5px solid #e5e5e5; border-radius: 8px;
+    padding: 9px 12px; font-size: 0.875rem; font-family: 'Nunito',sans-serif;
+    font-weight: 600; color: #333; background: #fafafa; outline: none;
+    transition: border-color .2s, background .2s;
+  }
+  .oh-field select {
+    appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23aaa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
+  }
+  .oh-field select:focus,
+  .oh-field input[type="time"]:focus { border-color: #e74c3c; background: #fff; }
+
+  /* Time input extras */
+  .oh-field input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0.5; cursor: pointer;
+  }
+
+  .oh-closed-field label {
+    display: block; font-size: 0.7rem; font-weight: 700;
+    color: #777; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .oh-toggle-wrap { display: flex; align-items: center; gap: 8px; padding: 9px 0; }
+  .switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink:0; }
+  .switch input { display: none; }
+  .slider {
+    position: absolute; inset: 0; background: #ddd; border-radius: 22px;
+    cursor: pointer; transition: .25s;
+  }
+  .slider:before {
+    position: absolute; content: ""; height: 16px; width: 16px;
+    left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .25s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  }
+  input:checked + .slider { background: #e74c3c; }
+  input:checked + .slider:before { transform: translateX(18px); }
+  .oh-toggle-label { font-size: 0.82rem; font-weight: 700; color: #666; }
+
+  .btn-add-hour {
+    background: linear-gradient(135deg,#c0392b,#e74c3c); color: white;
+    border: none; border-radius: 8px; padding: 9px 18px;
+    font-size: 0.82rem; font-family: 'Nunito',sans-serif; font-weight: 800;
+    cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 3px 10px rgba(192,57,43,0.28); transition: transform .15s, box-shadow .15s;
+  }
+  .btn-add-hour:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(192,57,43,0.38); }
+
+  .hours-disabled { opacity: 0.3; pointer-events: none; transition: opacity .2s; }
+
+  /* ── Week Grid ── */
+  .oh-week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .oh-day-card {
+    background: #fff; border: 1.5px solid #efefef; border-radius: 13px;
+    overflow: hidden; transition: box-shadow .2s;
+    animation: fadeUp .3s ease both;
+  }
+  .oh-day-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .oh-day-card:nth-child(1){animation-delay:0ms}
+  .oh-day-card:nth-child(2){animation-delay:40ms}
+  .oh-day-card:nth-child(3){animation-delay:80ms}
+  .oh-day-card:nth-child(4){animation-delay:120ms}
+  .oh-day-card:nth-child(5){animation-delay:160ms}
+  .oh-day-card:nth-child(6){animation-delay:200ms}
+  .oh-day-card:nth-child(7){animation-delay:240ms}
+
+  .oh-day-head {
+    padding: 11px 15px; background: #f9f9f9;
+    border-bottom: 1.5px solid #f0f0f0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .oh-day-name-wrap { display: flex; align-items: center; gap: 8px; }
+  .oh-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: #ddd; flex-shrink:0;
+    transition: background .3s;
+  }
+  .oh-dot.is-open   { background: #2ecc71; box-shadow: 0 0 0 3px rgba(46,204,113,.18); }
+  .oh-dot.is-closed { background: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,.18); }
+  .oh-dot.no-hours  { background: #ddd; }
+
+  .oh-day-name { font-size: 0.88rem; font-weight: 800; color: #1a1a1a; }
+
+  .oh-status-tag {
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.07em;
+    text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+    background: #f0f0f0; color: #aaa;
+  }
+  .oh-status-tag.open-tag   { background: #eafaf1; color: #1e8449; }
+  .oh-status-tag.closed-tag { background: #fdf2f2; color: #c0392b; }
+
+  .oh-slots { padding: 6px 0; min-height: 44px; }
+
+  .oh-slot-row {
+    display: flex; align-items: center; padding: 8px 15px; gap: 10px;
+    border-bottom: 1px solid #f8f8f8; transition: background .15s;
+  }
+  .oh-slot-row:last-child { border-bottom: none; }
+  .oh-slot-row:hover { background: #fdf8f8; }
+
+  .oh-slot-ico {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink:0;
+  }
+  .oh-slot-ico.t-open   { background: #eafaf1; }
+  .oh-slot-ico.t-closed { background: #fdf2f2; }
+
+  .oh-slot-info { flex: 1; }
+  .oh-slot-time { font-size: 0.875rem; font-weight: 700; color: #2d2d2d; }
+  .oh-slot-sub  { font-size: 0.7rem; font-weight: 600; color: #bbb; margin-top: 1px; }
+
+  .btn-del {
+    width: 26px; height: 26px; border-radius: 7px;
+    border: 1.5px solid #f0dede; background: transparent; color: #e74c3c;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s; flex-shrink: 0;
+  }
+  .btn-del:hover { background: #ffeaea; border-color: #e74c3c; }
+  .btn-del svg { width: 12px; height: 12px; }
+
+  .oh-empty {
+    padding: 14px 15px; font-size: 0.78rem; color: #ccc;
+    font-style: italic; text-align: center;
+  }
+
+  /* Toast */
+  #oh-toast {
+    position: fixed; top: 18px; right: 18px; z-index: 99999;
+    padding: 12px 18px; border-radius: 11px; font-family: 'Nunito',sans-serif;
+    font-size: 0.85rem; font-weight: 700; min-width: 230px; display: none;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    animation: toastIn .3s cubic-bezier(.22,.68,0,1.2);
+  }
+  #oh-toast.success { background:#eafaf1; border:1.5px solid #a9dfbf; color:#1e8449; }
+  #oh-toast.error   { background:#fdf2f2; border:1.5px solid #f5c6c6; color:#c0392b; }
+  @keyframes toastIn {
+    from { opacity:0; transform:translateY(-12px) scale(.95); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  @media (max-width: 760px) {
+    .oh-page { padding: 18px 16px 32px; }
+    .oh-week-grid { grid-template-columns: 1fr; }
+    .oh-form-grid { grid-template-columns: 1fr 1fr; }
+    .oh-form-grid .oh-field:first-child,
+    .oh-closed-field,
+    .btn-add-hour { grid-column: 1 / -1; }
+    .btn-add-hour { justify-content: center; }
+  }
+</style>
+
+<div class="oh-page">
+
+  <!-- Header -->
+  <div class="oh-page-header">
+    <h2>
+      <span class="oh-icon-wrap"><i class="icon-clock"></i></span>
+      Opening Hours
+    </h2>
+    <p>Define your weekly schedule — shown to customers on your restaurant listing.</p>
+  </div>
+
+  <!-- Add Slot -->
+  <div class="oh-add-card">
+    <div class="oh-card-label">Add a Time Slot</div>
+    <div class="oh-form-grid">
+
+      <div class="oh-field">
+        <label>Day</label>
+        <select id="oh-day">
+          {% for value, label in days %}
+          <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="oh-field" id="from-group">
+        <label>Opens At</label>
+        <input type="time" id="oh-from" value="09:00">
+      </div>
+
+      <div class="oh-field" id="to-group">
+        <label>Closes At</label>
+        <input type="time" id="oh-to" value="22:00">
+      </div>
+
+      <div class="oh-closed-field">
+        <label>Day Off?</label>
+        <div class="oh-toggle-wrap">
+          <label class="switch">
+            <input type="checkbox" id="oh-closed">
+            <span class="slider"></span>
+          </label>
+          <span class="oh-toggle-label">Closed</span>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn-add-hour" onclick="addOpeningHour()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Week Grid -->
+  <div class="oh-week-grid">
+    {% for day_value, day_name in days %}
+    {% with day_hours=opening_hours|filter_day:day_value %}
+
+    <div class="oh-day-card" id="day-card-{{ day_value }}">
+      <div class="oh-day-head">
+        <div class="oh-day-name-wrap">
+          {% if day_hours %}
+            {% if day_hours.0.is_closed %}
+              <span class="oh-dot is-closed" id="dot-{{ day_value }}"></span>
+            {% else %}
+              <span class="oh-dot is-open" id="dot-{{ day_value }}"></span>
+            {% endif %}
+          {% else %}
+            <span class="oh-dot no-hours" id="dot-{{ day_value }}"></span>
+          {% endif %}
+          <span class="oh-day-name">{{ day_name }}</span>
+        </div>
+        <span class="oh-status-tag {% if day_hours %}{% if day_hours.0.is_closed %}closed-tag{% else %}open-tag{% endif %}{% endif %}"
+              id="tag-{{ day_value }}">
+          {% if day_hours %}
+            {% if day_hours.0.is_closed %}Closed
+            {% else %}{{ day_hours|length }} slot{{ day_hours|length|pluralize }}
+            {% endif %}
+          {% else %}No hours{% endif %}
+        </span>
+      </div>
+
+      <div class="oh-slots" id="slots-{{ day_value }}">
+        {% if not day_hours %}
+          <div class="oh-empty" id="empty-{{ day_value }}">No time slots added yet</div>
+        {% else %}
+          {% for oh in day_hours %}
+          <div class="oh-slot-row" id="oh-row-{{ oh.id }}">
+            {% if oh.is_closed %}
+              <div class="oh-slot-ico t-closed">🔒</div>
+              <div class="oh-slot-info">
+                <div class="oh-slot-time">Closed all day</div>
+                <div class="oh-slot-sub">No service today</div>
+              </div>
+            {% else %}
+              <div class="oh-slot-ico t-open">🕐</div>
+              <div class="oh-slot-info">
+                <div class="oh-slot-time">{{ oh.from_hour }} &nbsp;→&nbsp; {{ oh.to_hour }}</div>
+                <div class="oh-slot-sub">Open</div>
+              </div>
+            {% endif %}
+            <button class="btn-del" title="Remove" onclick="deleteOpeningHour({{ oh.id }}, {{ day_value }})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+            </button>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+</div>
+<div id="oh-toast"></div>
+
+<script>
+const CSRF     = '{{ csrf_token }}';
+const ADD_URL  = '{% url "add_opening_hour" %}';
+const DEL_BASE = '/vendor/opening-hours/delete/';
+
+document.getElementById('oh-closed').addEventListener('change', function () {
+  document.getElementById('from-group').classList.toggle('hours-disabled', this.checked);
+  document.getElementById('to-group').classList.toggle('hours-disabled', this.checked);
+});
+
+function toast(msg, type = 'success') {
+  const t = document.getElementById('oh-toast');
+  t.textContent = (type === 'success' ? '✅ ' : '❌ ') + msg;
+  t.className = type; t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.style.display = 'none', 3500);
+}
+
+// Convert "HH:MM" (24h) → "12:00 AM/PM" to match stored format
+function to12h(val) {
+  if (!val) return '';
+  const [hStr, mStr] = val.split(':');
+  let h = parseInt(hStr), m = parseInt(mStr);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  if (h === 0) h = 12;
+  else if (h > 12) h -= 12;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function addOpeningHour() {
+  const day       = document.getElementById('oh-day').value;
+  const fromRaw   = document.getElementById('oh-from').value;  // "09:00"
+  const toRaw     = document.getElementById('oh-to').value;    // "22:00"
+  const is_closed = document.getElementById('oh-closed').checked;
+
+  if (!is_closed) {
+    if (!fromRaw || !toRaw) { toast('Please enter both opening and closing times.', 'error'); return; }
+    if (fromRaw >= toRaw)   { toast('Opening time must be before closing time.', 'error'); return; }
+  }
+
+  const from_hour = to12h(fromRaw);
+  const to_hour   = to12h(toRaw);
+
+  fetch(ADD_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+    body: JSON.stringify({ day, from_hour, to_hour, is_closed }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.status === 'success') {
+      toast('Hours added successfully!');
+      insertSlot(data.id, parseInt(day), from_hour, to_hour, is_closed);
+    } else {
+      toast(data.message || 'Error adding hours.', 'error');
+    }
+  })
+  .catch(() => toast('Network error. Try again.', 'error'));
+}
+
+function insertSlot(id, day, from_hour, to_hour, is_closed) {
+  document.getElementById('empty-' + day)?.remove();
+  const row = document.createElement('div');
+  row.className = 'oh-slot-row'; row.id = 'oh-row-' + id;
+
+  if (is_closed) {
+    row.innerHTML = `<div class="oh-slot-ico t-closed">🔒</div>
+      <div class="oh-slot-info"><div class="oh-slot-time">Closed all day</div>
+      <div class="oh-slot-sub">No service today</div></div>`;
+  } else {
+    row.innerHTML = `<div class="oh-slot-ico t-open">🕐</div>
+      <div class="oh-slot-info"><div class="oh-slot-time">${from_hour} &nbsp;→&nbsp; ${to_hour}</div>
+      <div class="oh-slot-sub">Open</div></div>`;
+  }
+
+  const btn = document.createElement('button');
+  btn.className = 'btn-del'; btn.title = 'Remove';
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>`;
+  btn.onclick = () => deleteOpeningHour(id, day);
+  row.appendChild(btn);
+  document.getElementById('slots-' + day).appendChild(row);
+  refreshDayStatus(day);
+}
+
+function deleteOpeningHour(id, day) {
+  fetch(DEL_BASE + id + '/', {
+    method: 'DELETE', headers: { 'X-CSRFToken': CSRF },
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.status === 'success') {
+      toast('Slot removed.');
+      document.getElementById('oh-row-' + id)?.remove();
+      const slots = document.getElementById('slots-' + day);
+      if (!slots.querySelector('.oh-slot-row'))
+        slots.innerHTML = `<div class="oh-empty" id="empty-${day}">No time slots added yet</div>`;
+      refreshDayStatus(day);
+    } else {
+      toast(data.message || 'Could not remove.', 'error');
+    }
+  })
+  .catch(() => toast('Network error.', 'error'));
+}
+
+function refreshDayStatus(day) {
+  const slots = document.getElementById('slots-' + day);
+  const rows  = slots.querySelectorAll('.oh-slot-row');
+  const dot   = document.getElementById('dot-' + day);
+  const tag   = document.getElementById('tag-' + day);
+  if (rows.length === 0) {
+    dot.className = 'oh-dot no-hours';
+    tag.className = 'oh-status-tag'; tag.textContent = 'No hours';
+  } else {
+    const isClosed = !!rows[0].querySelector('.t-closed');
+    dot.className = 'oh-dot ' + (isClosed ? 'is-closed' : 'is-open');
+    tag.className = 'oh-status-tag ' + (isClosed ? 'closed-tag' : 'open-tag');
+    tag.textContent = isClosed ? 'Closed' : `${rows.length} slot${rows.length > 1 ? 's' : ''}`;
+  }
+}
+</script>
+{% endblock %}

@@ -1,7 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from vendor.models import Vendor
 import math
+
 
 def _haversine_km(lat1, lon1, lat2, lon2):
     R = 6371.0
@@ -11,7 +11,11 @@ def _haversine_km(lat1, lon1, lat2, lon2):
     a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlam / 2) ** 2
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
+
 def home(request):
+    # import here (lazy) to avoid circular import at module load time
+    from vendor.utils import is_open_now
+
     vendors = Vendor.objects.filter(
         is_approved=True, user__is_active=True
     ).select_related('user_profile')
@@ -39,12 +43,19 @@ def home(request):
             vendors_with_dist.append((v, dist))
 
         vendors_with_dist.sort(key=lambda x: x[1])
-        vendors = [v for v, d in vendors_with_dist[:8]]
+        vendor_objs = [v for v, d in vendors_with_dist[:8]]
     else:
-        vendors = vendors[:8]
+        vendor_objs = list(vendors[:8])
+
+    # Build vendor_list with is_open status for each vendor
+    vendor_list = [
+        {'vendor': v, 'is_open': is_open_now(v)}
+        for v in vendor_objs
+    ]
 
     context = {
-        'vendors': vendors,
+        'vendor_list' : vendor_list,
+        'vendors'     : vendor_objs,   # kept for the "Top Restaurants" logo strip
         'has_location': has_location,
     }
     return render(request, 'home.html', context)
