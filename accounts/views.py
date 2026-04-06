@@ -147,7 +147,7 @@ def myAccount(request):
 
 @login_required
 @user_passes_test(check_role_customer)
-def custdashboard(request):
+def custdashboard(request): 
     return render(request,'accounts/custdashboard.html')
 
 @login_required
