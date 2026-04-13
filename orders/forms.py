@@ -30,23 +30,26 @@ class OrderForm(forms.Form):
         })
     )
     address = forms.CharField(
-    max_length=200,
-    widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Start typing your address...',
-        'id': 'id_address',
-        'autocomplete': 'off',
-    })
-)
+        max_length=200,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Start typing your address...',
+            'id': 'checkout_address',
+            'autocomplete': 'off',
+        })
+    )
     country = forms.CharField(
         max_length=50,
+        required=False,                  # ✅ optional — not all addresses have country
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Country',
         })
     )
+    # ✅ FIXED: state is optional — place_order.html doesn't have this field
     state = forms.CharField(
         max_length=50,
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'State',

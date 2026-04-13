@@ -336,4 +336,129 @@ $(document).ready(function () {
         });
     }
 
+
+    // ─── 4. CHECKOUT / PLACE ORDER PAGE ─────────────────────────────────────────
+    if ($('#checkout_address').length) {
+
+        var $checkoutInput       = $('#checkout_address');
+        var $checkoutSuggestions = $('#checkout-address-suggestions');
+        var checkoutDebounce     = null;
+
+        function fetchCheckoutSuggestions(query) {
+            if (query.length < 3) {
+                $checkoutSuggestions.hide().empty();
+                return;
+            }
+
+            $.ajax({
+                url: 'https://nominatim.openstreetmap.org/search',
+                data: { q: query, format: 'json', addressdetails: 1, limit: 6, countrycodes: 'in' },
+                headers: { 'Accept-Language': 'en' },
+                success: function (results) {
+                    $checkoutSuggestions.empty();
+
+                    if (!results.length) {
+                        $checkoutSuggestions.append(
+                            $('<li>').text('No results found').css({
+                                padding: '10px 14px', color: '#999', fontSize: '13px'
+                            })
+                        );
+                        $checkoutSuggestions.show();
+                        return;
+                    }
+
+                    $.each(results, function (i, place) {
+                        var $li = $('<li>').html(
+                            '<span style="font-size:13px;font-weight:600;color:#222;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'
+                            + place.display_name + '</span>'
+                        ).css({
+                            padding     : '9px 14px',
+                            cursor      : 'pointer',
+                            borderBottom: '1px solid #f0f0f0',
+                            background  : '#fff'
+                        });
+
+                        $li.on('mouseenter', function () { $(this).css('background', '#fff8f8'); });
+                        $li.on('mouseleave', function () { $(this).css('background', '#fff'); });
+
+                        $li.on('mousedown', function (e) {
+                            e.preventDefault(); // prevent blur firing before click
+
+                            var addr = place.address || {};
+                            var lat  = place.lat;
+                            var lon  = place.lon;
+
+                            // Fill address
+                            $checkoutInput.val(place.display_name);
+
+                            // City
+                            var city = addr.city || addr.town || addr.village
+                                     || addr.suburb || addr.county || '';
+                            $('#checkout_city').val(city);
+
+                            // ✅ State — fills the hidden input so the form submits it
+                            $('#checkout_state').val(addr.state || addr.region || '');
+
+                            // Country
+                            $('#checkout_country').val(addr.country || '');
+
+                            // Pincode
+                            var pincode = addr.postcode || addr.postal_code
+                                        || addr['addr:postcode']
+                                        || extractPostcodeFromText(place.display_name);
+                            $('#checkout_pincode').val(pincode);
+
+                            // Pincode fallback: reverse-geocode at max zoom
+                            if (!pincode) {
+                                $.ajax({
+                                    url    : 'https://nominatim.openstreetmap.org/reverse',
+                                    data   : { lat: lat, lon: lon, format: 'json', addressdetails: 1, zoom: 18 },
+                                    headers: { 'Accept-Language': 'en' },
+                                    success: function (data) {
+                                        if (data && data.address) {
+                                            var r = data.address;
+                                            var found = r.postcode || r.postal_code
+                                                      || r['addr:postcode']
+                                                      || extractPostcodeFromText(data.display_name || '');
+                                            if (found) $('#checkout_pincode').val(found);
+                                            fillIfEmpty('#checkout_city',
+                                                r.city || r.town || r.village || r.suburb || r.county || '');
+                                            fillIfEmpty('#checkout_state',  r.state  || r.region  || '');
+                                            fillIfEmpty('#checkout_country', r.country || '');
+                                        }
+                                    }
+                                });
+                            }
+
+                            $checkoutSuggestions.hide().empty();
+                        });
+
+                        $checkoutSuggestions.append($li);
+                    });
+
+                    $checkoutSuggestions.show();
+                },
+                error: function () {
+                    $checkoutSuggestions.hide();
+                }
+            });
+        }
+
+        $checkoutInput.on('input', function () {
+            clearTimeout(checkoutDebounce);
+            var query = $(this).val().trim();
+            checkoutDebounce = setTimeout(function () {
+                fetchCheckoutSuggestions(query);
+            }, 400);
+        });
+
+        $checkoutInput.on('blur', function () {
+            setTimeout(function () { $checkoutSuggestions.hide(); }, 200);
+        });
+
+        $checkoutInput.on('focus', function () {
+            if ($checkoutSuggestions.children().length) $checkoutSuggestions.show();
+        });
+    }
+
 });

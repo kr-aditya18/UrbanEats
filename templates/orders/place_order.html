@@ -2,80 +2,329 @@
 {% load static %}
 {% block content %}
 
-<!-- Main Section Start -->
 <div class="main-section pt-5">
     <div class="page-section">
         <div class="container">
+            {% if order %}
+            <div class="row">
+                <!-- LEFT: Review + Billing -->
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="tabs-holder horizontal">
+                        <ul class="stickynav-tabs nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#home">
+                                    <i class="fa fa-shopping-cart text-danger"></i>
+                                    Review Your Order
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane in active">
+                                <div class="menu-itam-holder p-4">
+
+                                    <span class="section-chip">
+                                        <i class="fa fa-cutlery"></i> Items ({{ cart_items|length }})
+                                    </span>
+
+                                    {% for item in cart_items %}
+                                    <div class="review-item-row">
+                                        <div class="flex-fill">
+                                            <div class="review-item-name">{{ item.food_title }}</div>
+                                            <div class="review-item-meta">&#8377; {{ item.price }} per item</div>
+                                        </div>
+                                        <span class="qty-badge">× {{ item.quantity }}</span>
+                                        <div class="review-item-price">
+                                            <span class="amount">&#8377; {{ item.amount|floatformat:2 }}</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    <hr>
+
+                                    <span class="section-chip">
+                                        <i class="fa fa-map-marker"></i> Billing Details
+                                    </span>
+
+                                    <div class="billing-grid">
+                                        <div class="billing-field">
+                                            <label>Name</label>
+                                            <p>{{ order.first_name }} {{ order.last_name }}</p>
+                                        </div>
+                                        <div class="billing-field">
+                                            <label>Phone</label>
+                                            <p>{{ order.phone }}</p>
+                                        </div>
+                                        <div class="billing-field full">
+                                            <label>Email</label>
+                                            <p>{{ order.email }}</p>
+                                        </div>
+                                        <div class="billing-field full">
+                                            <label>Delivery Address</label>
+                                            <p>{{ order.address }}, {{ order.city }}, {{ order.pin_code }}{% if order.country %}, {{ order.country }}{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <a href="{% url 'place_order' %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa fa-pencil"></i> Edit Billing Details
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Order Summary + PayPal -->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="tabs-holder horizontal">
+                        <ul class="stickynav-tabs nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#order">
+                                    <i class="icon- icon-room_service"></i> Your Order
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="order" class="tab-pane in active">
+                                <div class="menu-itam-holder p-3">
+
+                                    <div class="summary-row">
+                                        <span class="tax-label">Subtotal</span>
+                                        <span>&#8377; {{ subtotal }}</span>
+                                    </div>
+                                    {% for key, value in tax_dict.items %}
+                                        {% for i, j in value.items %}
+                                    <div class="summary-row">
+                                        <span class="tax-label">{{ key }} <small>({{ i }}%)</small></span>
+                                        <span>&#8377; {{ j }}</span>
+                                    </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    <div class="summary-row total-row">
+                                        <span>Total</span>
+                                        <span>&#8377; {{ grand_total }}</span>
+                                    </div>
+
+                                    <div class="order-number-badge">
+                                        <i class="fa fa-tag text-danger"></i>
+                                        Order <strong>{{ order.order_number }}</strong>
+                                    </div>
+
+                                    <div id="paypal-button-container"></div>
+
+                                    <p class="paypal-secure-note">
+                                        <i class="fa fa-lock"></i> Secured by PayPal
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- BILLING FORM -->
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-shopping-cart text-danger"></i>Review Your Billing Address</a></li>
+                            <li class="active">
+                                <a data-toggle="tab" href="#home">
+                                    <i class="fa fa-shopping-cart text-danger"></i>
+                                    Billing Address
+                                </a>
+                            </li>
                         </ul>
                         <div class="tab-content">
-                            <div id="home" class="tab-pane in active">
-                                <div class="menu-itam-holder">
-                                    <div id="menu-item-list-6272" class="menu-itam-list">
-                                        
+                            <div id="home" class="tab-pane in active p-4">
+                                <form action="{% url 'place_order' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="payment_method" value="PayPal">
+
+                                    <!-- ✅ Hidden state field — filled by autocomplete JS -->
+                                    <input type="hidden" name="state" id="checkout_state" value="{{ billing_data.state }}">
+
+                                    <div class="billing-grid mt-3">
+
+                                        <div class="billing-field">
+                                            <label>First Name</label>
+                                            <input type="text" name="first_name"
+                                                value="{{ billing_data.first_name }}"
+                                                class="form-control" placeholder="First Name" required>
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>Last Name</label>
+                                            <input type="text" name="last_name"
+                                                value="{{ billing_data.last_name }}"
+                                                class="form-control" placeholder="Last Name" required>
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>Phone</label>
+                                            <input type="text" name="phone"
+                                                value="{{ billing_data.phone }}"
+                                                class="form-control" placeholder="Phone Number">
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>Email</label>
+                                            <input type="email" name="email"
+                                                value="{{ billing_data.email }}"
+                                                class="form-control" placeholder="Email Address" required>
+                                        </div>
+
+                                        <!-- ADDRESS with autocomplete dropdown -->
+                                        <div class="billing-field full" style="position: relative;">
+                                            <label>Address</label>
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                id="checkout_address"
+                                                value="{{ billing_data.address }}"
+                                                class="form-control"
+                                                placeholder="Start typing your address..."
+                                                autocomplete="off"
+                                                required>
+                                            <ul id="checkout-address-suggestions" style="
+                                                display: none;
+                                                position: absolute;
+                                                top: 100%;
+                                                left: 0;
+                                                right: 0;
+                                                z-index: 9999;
+                                                background: #fff;
+                                                border: 1px solid #ddd;
+                                                border-radius: 6px;
+                                                box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+                                                max-height: 260px;
+                                                overflow-y: auto;
+                                                padding: 0;
+                                                margin: 4px 0 0 0;
+                                                list-style: none;
+                                            "></ul>
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>Country</label>
+                                            <input type="text" name="country" id="checkout_country"
+                                                value="{{ billing_data.country }}"
+                                                class="form-control" placeholder="Country">
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>City</label>
+                                            <input type="text" name="city" id="checkout_city"
+                                                value="{{ billing_data.city }}"
+                                                class="form-control" placeholder="City" required>
+                                        </div>
+
+                                        <div class="billing-field">
+                                            <label>Pin Code</label>
+                                            <input type="text" name="pin_code" id="checkout_pincode"
+                                                value="{{ billing_data.pin_code }}"
+                                                class="form-control" placeholder="Pin Code" required>
+                                        </div>
+
+                                        <div class="billing-field full mt-2">
+                                            <button type="submit" class="btn btn-danger btn-block">
+                                                Proceed to Payment
+                                            </button>
+                                        </div>
+
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Your Order Section -->
+                <!-- Right: Order Summary -->
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#order"><i class="icon- icon-room_service"></i>Your Order</a></li>
+                            <li class="active">
+                                <a data-toggle="tab" href="#order2">
+                                    <i class="icon- icon-room_service"></i> Your Order
+                                </a>
+                            </li>
                         </ul>
                         <div class="tab-content">
-                            <div id="order" class="tab-pane in active">
-                                <div class="menu-itam-holder">
-                                    <div>
-                                        <ul>
-                                            <li style="list-style-type:none;">
-                                                Subtotal
-                                                <span class="price float-right">
-                                                    <span class="currency">&#8377;</span>
-                                                    <!-- populated from context processor on load -->
-                                                    <span id="subtotal">{{subtotal}}</span>
-                                                </span>
-                                            </li>
-
-                                            {% for key,value in tax_dict.items %}
-                                                {% for i,j in value.items %}
-                                            <li style="list-style-type:none;">
-                                                {{key}} <small>({{ i }}%)</small>
-                                                <span class="price float-right">
-                                                    <span class="currency">&#8377;</span>
-                                                    <span id="tax-{{ key }}">{{ j }}</span>
-                                                </span>
-                                            </li>
-                                                {% endfor %}
-                                            {% endfor %}
-                                            <li style="list-style-type:none; font-weight:600;">
-                                                Total
-                                                <span class="price float-right">
-                                                    <span class="currency">&#8377;</span>
-                                                    <span id="grand_total">{{grand_total}}</span>
-                                                </span>
-                                            </li>
-
-                                            <a href="{% url 'checkout' %}" class="btn btn-danger w-100 p-2 mt-3">PROCEED TO CHECKOUT</a>
-                                        </ul>
+                            <div id="order2" class="tab-pane in active">
+                                <div class="menu-itam-holder p-3">
+                                    <div class="summary-row">
+                                        <span class="tax-label">Subtotal</span>
+                                        <span>&#8377; {{ subtotal }}</span>
+                                    </div>
+                                    {% for key, value in tax_dict.items %}
+                                        {% for i, j in value.items %}
+                                    <div class="summary-row">
+                                        <span class="tax-label">{{ key }} <small>({{ i }}%)</small></span>
+                                        <span>&#8377; {{ j }}</span>
+                                    </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    <div class="summary-row total-row">
+                                        <span>Total</span>
+                                        <span>&#8377; {{ grand_total }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
-<!-- Main Section End -->
+
+{% if order %}
+<script>
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return fetch('/orders/api/paypal/order/create/', {
+                method: 'post',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+            }).then(function(res) {
+                if (!res.ok) throw new Error('Server error: ' + res.status);
+                return res.json();
+            }).then(function(orderData) {
+                if (orderData.error) throw new Error(orderData.error);
+                return orderData.id;
+            });
+        },
+        onApprove: function(data, actions) {
+            return fetch('/orders/api/paypal/order/' + data.orderID + '/capture/', {
+                method: 'post',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+            }).then(function(res) {
+                return res.json();
+            }).then(function(orderData) {
+                var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+                if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                    return actions.restart();
+                }
+                if (errorDetail) {
+                    var msg = 'Sorry, your transaction could not be processed.';
+                    if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                    return alert(msg);
+                }
+                window.location.href = '/orders/order_complete/?order_number='
+                    + orderData.order_number
+                    + '&payment_id='
+                    + orderData.payment_id;
+            });
+        },
+        onError: function(err) {
+            console.error('PayPal error:', err);
+            alert('Something went wrong with PayPal. Please try again.');
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endif %}
 
 {% endblock %}

@@ -39,5 +39,5 @@ urlpatterns = [
     # orders
     
     path('orders/',include('orders.urls')),
-    
+    path('demo/checkout/', include('orders.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
