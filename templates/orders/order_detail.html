@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+<div class="main-section">
+    {% include "customers/cover.html" %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    {% include 'includes/c_sidebar.html' %}
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+
+                            <div class="element-title has-border" style="display:flex; justify-content:space-between; align-items:center;">
+                                <h5>Order #{{ order.order_number }}</h5>
+                                <a href="{% url 'my_orders' %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fa fa-arrow-left"></i> Back to Orders
+                                </a>
+                            </div>
+
+                            <!-- Status + Payment Info -->
+                            <div class="row mt-3 mb-3">
+                                <div class="col-md-4">
+                                    <strong>Status:</strong><br>
+                                    {% if order.status == 'Completed' %}
+                                        <span class="order-status" style="background:#047a06;">Completed</span>
+                                    {% elif order.status == 'Cancelled' %}
+                                        <span class="order-status" style="background:#e74c3c;">Cancelled</span>
+                                    {% elif order.status == 'Accepted' %}
+                                        <span class="order-status" style="background:#1e73be;">Accepted</span>
+                                    {% else %}
+                                        <span class="order-status" style="background:#f39c12;">{{ order.status }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Payment:</strong><br>
+                                    {{ order.payment_method }}
+                                    {% if order.payment %}
+                                        <br><small class="text-muted">ID: {{ order.payment.transaction_id }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Date:</strong><br>
+                                    {{ order.created_at|date:"M d, Y, h:i A" }}
+                                </div>
+                            </div>
+
+                            <!-- Ordered Items -->
+                            <div class="user-orders-list">
+                                <div class="responsive-table">
+                                    <ul class="table-generic">
+                                        <li class="order-heading-titles">
+                                            <div>Item</div>
+                                            <div>Price</div>
+                                            <div>Qty</div>
+                                            <div>Amount</div>
+                                        </li>
+                                        {% for item in ordered_food %}
+                                        <li class="order-heading-titles">
+                                            <div>{{ item.fooditem.food_title }}</div>
+                                            <div>₹ {{ item.price }}</div>
+                                            <div>× {{ item.quantity }}</div>
+                                            <div>₹ {{ item.amount }}</div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Totals -->
+                            <div class="row mt-3">
+                                <div class="col-md-6 offset-md-6">
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td>Subtotal</td>
+                                            <td class="text-right">₹ {{ subtotal }}</td>
+                                        </tr>
+                                        {% for key, value in order.tax_data.items %}
+                                            {% for percent, amount in value.items %}
+                                            <tr>
+                                                <td>{{ key }} ({{ percent }}%)</td>
+                                                <td class="text-right">₹ {{ amount }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        <tr class="font-weight-bold">
+                                            <td>Total</td>
+                                            <td class="text-right">₹ {{ order.total }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Delivery Address -->
+                            <div class="mt-3 p-3" style="background:#f9f9f9; border-radius:8px;">
+                                <strong><i class="fa fa-map-marker text-danger"></i> Delivery Address</strong>
+                                <p class="mb-0 mt-1">
+                                    {{ order.address }}, {{ order.city }}, {{ order.pin_code }}
+                                    {% if order.country %}, {{ order.country }}{% endif %}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

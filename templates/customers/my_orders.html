@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+<div class="main-section">
+    {% include "customers/cover.html" %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    {% include 'includes/c_sidebar.html' %}
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+
+                            <div class="element-title has-border">
+                                <h5>My Orders <small class="text-muted">({{ orders|length }} total)</small></h5>
+                            </div>
+
+                            <div class="user-orders-list">
+                                <div class="responsive-table">
+                                    <ul class="table-generic">
+                                        <li class="order-heading-titles">
+                                            <div>Order #</div>
+                                            <div>Date</div>
+                                            <div>Total</div>
+                                            <div>Tax</div>
+                                            <div>Payment</div>
+                                            <div>Status</div>
+                                            <div>Detail</div>
+                                        </li>
+                                        {% for order in orders %}
+                                        <li class="order-heading-titles">
+                                            <div>#{{ order.order_number }}</div>
+                                            <div>{{ order.created_at|date:"M d, Y" }}</div>
+                                            <div>₹ {{ order.total }}</div>
+                                            <div>₹ {{ order.total_tax }}</div>
+                                            <div>{{ order.payment_method }}</div>
+                                            <div>
+                                                {% if order.status == 'Completed' %}
+                                                    <span class="order-status" style="background:#047a06;">Completed</span>
+                                                {% elif order.status == 'Cancelled' %}
+                                                    <span class="order-status" style="background:#e74c3c;">Cancelled</span>
+                                                {% elif order.status == 'Accepted' %}
+                                                    <span class="order-status" style="background:#1e73be;">Accepted</span>
+                                                {% else %}
+                                                    <span class="order-status" style="background:#f39c12;">{{ order.status }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div>
+                                                <a href="{% url 'order_detail' order.order_number %}"
+                                                   class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
+                                            </div>
+                                        </li>
+                                        {% empty %}
+                                        <li class="order-heading-titles">
+                                            <div style="text-align:center; padding:30px;">
+                                                You haven't placed any orders yet.
+                                                <a href="{% url 'marketplace' %}">Browse restaurants</a>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

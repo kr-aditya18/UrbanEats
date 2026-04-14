@@ -145,10 +145,16 @@ def myAccount(request):
     redirectUrl = detectUser(user)
     return redirect(redirectUrl)
 
-@login_required
+
 @user_passes_test(check_role_customer)
-def custdashboard(request): 
-    return render(request,'accounts/custdashboard.html')
+@login_required(login_url='login')
+def custdashboard(request):
+    from orders.models import Order
+    orders = Order.objects.filter(
+        user=request.user, is_ordered=True
+    ).order_by('-created_at')[:5]   # only last 5 for dashboard
+    return render(request, 'accounts/custdashboard.html', {'orders': orders})
+
 
 @login_required
 @user_passes_test(check_role_vendor)
