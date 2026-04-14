@@ -34,7 +34,6 @@ def make_serializable(obj):
 
 
 def send_notification(mail_subject, mail_template, context):
-    """Reusable HTML email sender."""
     message = render_to_string(mail_template, context)
     to_email = context.get('to_email')
     mail = EmailMessage(mail_subject, message, to=[to_email])
@@ -47,29 +46,17 @@ def send_notification(mail_subject, mail_template, context):
 # ─────────────────────────────────────────────
 
 def get_paypal_access_token():
-    """
-    Exchange PAYPAL_CLIENT_ID + PAYPAL_SECRET for a Bearer token.
-    settings.py must have:
-        PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
-        PAYPAL_SECRET    = config('PAYPAL_SECRET')
-        PAYPAL_MODE      = 'sandbox'   # or 'live'
-    """
     client_id     = settings.PAYPAL_CLIENT_ID
     client_secret = settings.PAYPAL_SECRET
     mode          = getattr(settings, 'PAYPAL_MODE', 'sandbox')
-
     base_url = (
         "https://api-m.sandbox.paypal.com"
         if mode == 'sandbox'
         else "https://api-m.paypal.com"
     )
-
     response = requests.post(
         f"{base_url}/v1/oauth2/token",
-        headers={
-            "Accept":          "application/json",
-            "Accept-Language": "en_US",
-        },
+        headers={"Accept": "application/json", "Accept-Language": "en_US"},
         auth=(client_id, client_secret),
         data={"grant_type": "client_credentials"},
     )
@@ -93,19 +80,13 @@ def get_paypal_base_url():
 # ─────────────────────────────────────────────
 
 def get_razorpay_client():
-    """
-    Returns an authenticated Razorpay client.
-    settings.py must have:
-        RAZORPAY_KEY_ID     = config('RAZORPAY_KEY_ID')
-        RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
-    """
     return razorpay.Client(
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
 
 
 # ─────────────────────────────────────────────
-# place_order  (billing form + review page)
+# place_order
 # ─────────────────────────────────────────────
 
 @login_required(login_url='login')
@@ -114,7 +95,6 @@ def place_order(request):
     if cart_items.count() <= 0:
         return redirect('marketplace')
 
-    # If user clicks "Edit Billing" — delete the pending order & restore form data
     if request.method == 'GET' and 'order_number' in request.session:
         try:
             old_order = Order.objects.get(
@@ -166,7 +146,6 @@ def place_order(request):
 
             request.session['order_number'] = order.order_number
 
-            # Build cart_items list for template display
             cart_items_display = []
             for item in cart_items:
                 cart_items_display.append({
@@ -235,7 +214,6 @@ def create_order(request):
                 {"error": "Failed to create PayPal order", "details": order_data},
                 status=500
             )
-
         return JsonResponse({"id": order_data['id']})
 
     except Order.DoesNotExist:
@@ -298,6 +276,9 @@ def capture_order(request, order_id):
                 ordered_food.save()
                 vendors_seen.add(item.fooditems.vendor)
 
+            # ── Lesson 203: Assign vendors to this order ──
+            order.vendors.set(vendors_seen)
+
             # Email to customer
             ordered_food_to_customer = OrderedFood.objects.filter(order=order)
             send_notification(
@@ -347,10 +328,6 @@ def capture_order(request, order_id):
 
 @csrf_exempt
 def razorpay_create_order(request):
-    """
-    Called by the frontend to create a Razorpay order.
-    Returns: razorpay_key, razorpay_order_id, amount (paise), currency
-    """
     try:
         order_number = request.session.get('order_number')
         if not order_number:
@@ -358,15 +335,13 @@ def razorpay_create_order(request):
 
         order  = Order.objects.get(order_number=order_number, user=request.user)
         client = get_razorpay_client()
-
-        # Razorpay expects amount in paise (1 INR = 100 paise)
         amount_paise = int(order.total * 100)
 
         rzp_order = client.order.create({
-            "amount":   amount_paise,
-            "currency": "INR",
-            "receipt":  order.order_number,
-            "payment_capture": 1,   # auto-capture
+            "amount":          amount_paise,
+            "currency":        "INR",
+            "receipt":         order.order_number,
+            "payment_capture": 1,
         })
 
         return JsonResponse({
@@ -390,11 +365,6 @@ def razorpay_create_order(request):
 
 @csrf_exempt
 def razorpay_capture_order(request):
-    """
-    Verifies Razorpay signature, marks order complete, sends emails.
-    Expects JSON body:
-        razorpay_payment_id, razorpay_order_id, razorpay_signature
-    """
     try:
         data = json.loads(request.body)
 
@@ -402,22 +372,19 @@ def razorpay_capture_order(request):
         razorpay_order_id   = data.get('razorpay_order_id', '')
         razorpay_signature  = data.get('razorpay_signature', '')
 
-        # ── Signature verification ──────────────────────────────────────────
         key_secret = settings.RAZORPAY_KEY_SECRET.encode('utf-8')
         message    = f"{razorpay_order_id}|{razorpay_payment_id}".encode('utf-8')
         generated  = hmac.new(key_secret, message, hashlib.sha256).hexdigest()
 
         if generated != razorpay_signature:
-            return JsonResponse({"error": "Invalid payment signature. Possible fraud."}, status=400)
-        # ────────────────────────────────────────────────────────────────────
+            return JsonResponse({"error": "Invalid payment signature."}, status=400)
 
         order_number = request.session.get('order_number')
         order        = Order.objects.get(order_number=order_number, user=request.user)
 
-        # Fetch payment details from Razorpay to get the actual amount captured
         client      = get_razorpay_client()
         rzp_payment = client.payment.fetch(razorpay_payment_id)
-        amount_inr  = rzp_payment['amount'] / 100   # convert paise → INR
+        amount_inr  = rzp_payment['amount'] / 100
 
         payment = Payment.objects.create(
             user=request.user,
@@ -446,6 +413,9 @@ def razorpay_capture_order(request):
             ordered_food.amount   = item.fooditems.price * item.quantity
             ordered_food.save()
             vendors_seen.add(item.fooditems.vendor)
+
+        # ── Lesson 203: Assign vendors to this order ──
+        order.vendors.set(vendors_seen)
 
         # Email to customer
         ordered_food_to_customer = OrderedFood.objects.filter(order=order)

@@ -6,7 +6,7 @@ from menu.models import FoodItem
 class Payment(models.Model):
     PAYMENT_METHOD = (
         ('PayPal', 'PayPal'),
-        ('RazorPay', 'RazorPay'), # Only for Indian Students.
+        ('RazorPay', 'RazorPay'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=100)
@@ -29,6 +29,10 @@ class Order(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
+
+    # ── Lesson 202: One order can have items from many vendors ──
+    vendors = models.ManyToManyField('vendor.Vendor', blank=True)
+
     order_number = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -40,7 +44,7 @@ class Order(models.Model):
     city = models.CharField(max_length=50)
     pin_code = models.CharField(max_length=10)
     total = models.FloatField()
-    tax_data = models.JSONField(blank=True, help_text = "Data format: {'tax_type':{'tax_percentage':'tax_amount'}}")
+    tax_data = models.JSONField(blank=True, help_text="Data format: {'tax_type':{'tax_percentage':'tax_amount'}}")
     total_tax = models.FloatField()
     payment_method = models.CharField(max_length=25)
     status = models.CharField(max_length=15, choices=STATUS, default='New')
@@ -48,13 +52,13 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # Concatenate first name and last name
     @property
     def name(self):
         return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
         return self.order_number
+
 
 class OrderedFood(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
