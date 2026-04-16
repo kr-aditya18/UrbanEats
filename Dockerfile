@@ -1,5 +1,6 @@
 FROM python:3.12-slim
 
+# ── System deps: GDAL, GEOS, PROJ, PostgreSQL client, compilers ───────────────
 RUN apt-get update && apt-get install -y \
     gdal-bin \
     libgdal-dev \
@@ -13,9 +14,13 @@ RUN apt-get update && apt-get install -y \
     && ln -sf $(find /usr/lib -name "libgdal.so*" | grep -v python | head -1) /usr/lib/libgdal.so \
     && ln -sf $(find /usr/lib -name "libgeos_c.so*" | head -1) /usr/lib/libgeos_c.so
 
+# ── Tell GDAL pip build where headers live ────────────────────────────────────
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
+# ── Dummy build-time env vars (never used at runtime) ────────────────────────
+# These only exist so collectstatic doesn't crash during docker build.
+# Render injects real values at container start via the dashboard.
 ENV SECRET_KEY=dummy-secret-key-for-build-only
 ENV DEBUG=False
 ENV DB_NAME=dummy
@@ -32,20 +37,30 @@ ENV PAYPAL_CLIENT_ID=dummy
 ENV PAYPAL_SECRET=dummy
 ENV RAZORPAY_KEY_ID=dummy
 ENV RAZORPAY_KEY_SECRET=dummy
+ENV CLOUDINARY_CLOUD_NAME=dummy
+ENV CLOUDINARY_API_KEY=dummy
+ENV CLOUDINARY_API_SECRET=dummy
 
 WORKDIR /app
 
 COPY requirements.txt .
 
+# ── THE CRITICAL FIX ──────────────────────────────────────────────────────────
+# --no-build-isolation tells pip to reuse the already-installed system GDAL
+# build tools instead of downloading + setting up an isolated build env.
+# This is what was crashing on Render's free tier (512MB RAM limit).
 RUN pip install --upgrade pip && \
-    pip install GDAL==$(gdal-config --version) && \
+    pip install GDAL==$(gdal-config --version) --no-build-isolation && \
     pip install -r requirements.txt
 
+# Copy all project files (includes start.sh — no need to COPY it again below)
 COPY . .
 
-RUN python manage.py collectstatic --noinput --settings=foodonline_main.settings_render
+# ── collectstatic at build time (WhiteNoise serves these, not Cloudinary) ─────
+# Media files (user uploads) go to Cloudinary at runtime — NOT here.
+RUN python manage.py collectstatic --noinput \
+    --settings=foodonline_main.settings_render
 
-COPY start.sh .
 RUN chmod +x start.sh
 
 EXPOSE 10000
