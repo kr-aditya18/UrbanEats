@@ -18,9 +18,7 @@ RUN apt-get update && apt-get install -y \
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
-# ── Dummy build-time env vars (never used at runtime) ────────────────────────
-# These only exist so collectstatic doesn't crash during docker build.
-# Render injects real values at container start via the dashboard.
+# ── Dummy build-time env vars ─────────────────────────────────────────────────
 ENV SECRET_KEY=dummy-secret-key-for-build-only
 ENV DEBUG=False
 ENV DB_NAME=dummy
@@ -45,20 +43,16 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# ── THE CRITICAL FIX ──────────────────────────────────────────────────────────
-# --no-build-isolation tells pip to reuse the already-installed system GDAL
-# build tools instead of downloading + setting up an isolated build env.
-# This is what was crashing on Render's free tier (512MB RAM limit).
+# ── Install Python deps ───────────────────────────────────────────────────────
+# numpy must come before GDAL — GDAL bindings need it at compile time.
+# GDAL is NOT in requirements.txt (Windows wheel was removed).
 RUN pip install --upgrade pip && \
-    pip install setuptools wheel && \
+    pip install setuptools wheel numpy && \
     pip install GDAL==$(gdal-config --version) --no-build-isolation && \
     pip install -r requirements.txt
 
-# Copy all project files (includes start.sh — no need to COPY it again below)
 COPY . .
 
-# ── collectstatic at build time (WhiteNoise serves these, not Cloudinary) ─────
-# Media files (user uploads) go to Cloudinary at runtime — NOT here.
 RUN python manage.py collectstatic --noinput \
     --settings=foodonline_main.settings_render
 
