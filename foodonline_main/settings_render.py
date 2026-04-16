@@ -15,11 +15,9 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
-
-# ── GDAL / GEOS / PROJ — Linux paths (replaces Windows .dll paths) ────────────
-# These override the Windows paths in settings.py
-GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'
-GEOS_LIBRARY_PATH = '/usr/lib/x86_64-linux-gnu/libgeos_c.so'
+# ── GDAL / GEOS / PROJ — Linux paths ─────────────────────────────────────────
+GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'      # symlink created in Dockerfile
+GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'    # symlink created in Dockerfile
 
 # PROJ is usually found automatically; only add if you get a PROJ error:
 # PROJ_LIBRARY_PATH = '/usr/lib/x86_64-linux-gnu/libproj.so'

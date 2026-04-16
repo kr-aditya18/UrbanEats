@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     python3-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf $(find /usr/lib -name "libgdal.so*" | grep -v python | head -1) /usr/lib/libgdal.so \
+    && ln -sf $(find /usr/lib -name "libgeos_c.so*" | head -1) /usr/lib/libgeos_c.so
 
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
