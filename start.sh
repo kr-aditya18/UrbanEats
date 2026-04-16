@@ -4,6 +4,9 @@ set -e
 echo "==> Running migrations..."
 python manage.py migrate --settings=foodonline_main.settings_render --noinput
 
+echo "==> Loading data from datadump.json..."
+python manage.py loaddata datadump.json --settings=foodonline_main.settings_render
+
 echo "==> Starting Gunicorn..."
 exec gunicorn foodonline_main.wsgi:application \
     --bind 0.0.0.0:10000 \

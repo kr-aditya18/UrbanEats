@@ -41,14 +41,37 @@ DATABASES = {
     }
 }
 
+# ── Installed Apps — Cloudinary (must be before staticfiles) ──────────────────
+# Insert cloudinary apps if not already present (safe to run multiple times)
+_cloudinary_apps = [
+    'cloudinary_storage',
+    'cloudinary',
+]
+for _app in reversed(_cloudinary_apps):
+    if _app not in INSTALLED_APPS:
+        # cloudinary_storage must come BEFORE django.contrib.staticfiles
+        _staticfiles_index = INSTALLED_APPS.index('django.contrib.staticfiles')
+        INSTALLED_APPS.insert(_staticfiles_index, _app)
+
 # ── Static Files (WhiteNoise) ─────────────────────────────────────────────────
 _whitenoise = 'whitenoise.middleware.WhiteNoiseMiddleware'
 if _whitenoise not in MIDDLEWARE:
     MIDDLEWARE.insert(1, _whitenoise)
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = []  # CRITICAL: clear inherited value to avoid conflict
+STATICFILES_DIRS = []   # CRITICAL: must be empty — avoids conflict with STATIC_ROOT
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ── Media Files (Cloudinary) ──────────────────────────────────────────────────
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
