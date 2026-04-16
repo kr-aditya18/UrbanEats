@@ -50,6 +50,7 @@ COPY requirements.txt .
 # build tools instead of downloading + setting up an isolated build env.
 # This is what was crashing on Render's free tier (512MB RAM limit).
 RUN pip install --upgrade pip && \
+    pip install setuptools wheel && \
     pip install GDAL==$(gdal-config --version) --no-build-isolation && \
     pip install -r requirements.txt
 
