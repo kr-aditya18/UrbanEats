@@ -8,7 +8,7 @@ python manage.py migrate \
 
 echo "==> Starting Gunicorn..."
 exec gunicorn foodonline_main.wsgi:application \
-    --bind 0.0.0.0:10000 \
+    --bind 0.0.0.0:$PORT \
     --workers 2 \
     --timeout 120 \
     --log-level info
