@@ -45,9 +45,9 @@ COPY . .
 
 RUN python manage.py collectstatic --noinput --settings=foodonline_main.settings_render
 
+COPY start.sh .
+RUN chmod +x start.sh
+
 EXPOSE 10000
 
-CMD ["gunicorn", "foodonline_main.wsgi:application", \
-     "--bind", "0.0.0.0:10000", \
-     "--workers", "2", \
-     "--timeout", "120"]
+CMD ["./start.sh"]
