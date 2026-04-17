@@ -1,197 +1,5 @@
 [
 {
-  "model": "sessions.session",
-  "pk": "0iz57u330eohf25rkh5bdgbzm0wv9zij",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1w39dL:J8zoykfbjhLZCq4wso3VWSW8eHTrpoGVddyjcoVCmmQ",
-    "expire_date": "2026-04-02T09:25:39.371Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "21uw9khavbrsurblsos2w56zo7hmly26",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1vxOzp:GXBSuvesZAJFlRILFkRZ3h10JGuL6ok25USJq0M739Q",
-    "expire_date": "2026-03-17T12:37:05.586Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "3ndsynze5v07zgkqhl0olei2e99zyegm",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1wCCqq:8TzK06wpJn0ZZi-pbh7Unxpg7EYhYSuDgShjpb7bY1A",
-    "expire_date": "2026-04-27T08:41:00.794Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "45emv0j4d3lb13vg2ujjyc00z96i99zm",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1w0yKu:AyN39EPJeVd8rNBpOIF6WcsdI3-eeGUL_l5cQ7PFeR8",
-    "expire_date": "2026-03-27T08:57:36.706Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "7219y84p0i82ltku3iojzrmnt65enr3g",
-  "fields": {
-    "session_data": ".eJxVjEsOwjAMBe-SNYoSpSY2S_acoXJsixZQIvWzqrg7VOoCtm9m3uZ6XpehX2eb-lHdxUV3-t0Ky9PqDvTB9d68tLpMY_G74g86-1tTe10P9-9g4Hn41mgpJ4MuA0QWOGdkNMwkkbhLjFmhmCYAhEBRKVPQUEQ4dCQU0b0_xsM3NA:1w63fn:PDO59kFI6XbF4ewoZSIIeYnaCLKV1RFT3p7CcUWFsC8",
-    "expire_date": "2026-04-10T09:40:11.641Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "9w59t5jifhxm02wfwrb084hwgoc47rxx",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1w0bzM:shVZjYozpHprf2ziCci5LdYFYcWO9evME-oZOOn0lcE",
-    "expire_date": "2026-03-26T09:05:52.413Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "bbbu22ob819a28r2ilce5h5d0o4tvf34",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQRP-FsyFlgWzx6N1vIAssUjWQlPbU-O-2SQ96nHlvZhOe1qX4tfPspySuAkBcfstA8cX1IOlJ9dFkbHWZpyAPRZ60y3tL_L6d7t9BoV72tWOdB6UxGBpjQlZ7zAazDSabgJoAEipLjoAVOquGrC2Cc5bNCATi8wUFizd5:1vy4eJ:bJniixeRREdcMES3mm-lLhnTDWTKije1yKld1KQpZFM",
-    "expire_date": "2026-03-19T09:05:39.678Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "frfd122gb8in85ylu4zt1vzssqr9pw0j",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w7s0K:xjl_SMSakoqZPGwpr0XhxjjlYjtUG7L8OXgI5SjesvA",
-    "expire_date": "2026-04-15T09:36:52.029Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "gfeg3ukqj7izt0gt5lhi99vdzuezzopv",
-  "fields": {
-    "session_data": ".eJxVjjsOwjAQRO_iGllre20DJT1niHb9IeFjS05SIe5OLKWAdt7M07zFQOsyDuuc2jBFcRZaicNvyBQeqXQS71RuVYZaljax7BW501lea0zPy979E4w0j33NED1YpIxJofaGOIFLVmmDGE4xo8s6ZCbrclRHpQxb9mScDoAn6zdpbXHzlfXFqfWnoB2g2gzgtHUgPl8rn0EL:1wCtrN:mFRk8qOPlrCZzKJPQIyjXaI26oPHP6jrbw77IwRjif0",
-    "expire_date": "2026-04-29T06:36:25.941Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "jbvz4kx90jvutl28zjbteo8qu3h81awq",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w8W8x:s2_5V2yzQiB9Yp2Jwne1YsnmqZHEXcdQzKdPARsjh3w",
-    "expire_date": "2026-04-17T04:28:27.148Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "jgoaisbou95salbrk64lwdthyubp2q00",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1vqpe2:ZgG65FggRXBFYnezwOahRi3Pw0N-ia_02LTNhMtgNig",
-    "expire_date": "2026-02-27T09:39:26.672Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "kuzp6f4eejel237tniafeyybjg6w257s",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w8DhG:nkpyojbkjs7eC8o-CQLjqEo5UZPsoF9JmFDScxXWFFk",
-    "expire_date": "2026-04-16T08:46:38.041Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "l7twne4o5guhirydzrh0vy3wgwg6o6b6",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w9foz:_yQvjn7xiQc3wuYbwGtIB7FkwQC2Wf6wKnksOxVQ97g",
-    "expire_date": "2026-04-20T09:00:37.556Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "lhloyw60i79q6o4bmb5nrwzgfja0xkyy",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAQRf-FtSFQGR4u3fcbyAwDUjU0Ke3K-O_apAvd3nPOfYmI21rj1vMSJxYXocXpdyNMj9x2wHdst1mmua3LRHJX5EG7HGfOz-vh_h1U7PVbD0Xp4DUWC0zGKAwIJhRn2SJRPgMGjegLOFd4UIlQJwBPgcgo4714fwDrnDgx:1w7Wqo:1vNepLDwX2bV7-jnvxz17ELpfDcrSLpaP2X6icpT4Ms",
-    "expire_date": "2026-04-14T11:01:38.853Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "lhpiqtjam9hlsbp12a5pahwliez508il",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1wCaba:NTQt24i3kD8G5sz9QcUbFSCsDPSsEEOamWXSiupRFh8",
-    "expire_date": "2026-04-28T10:02:50.941Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "llt57x68dby392o1rokyvuate3gl9i5b",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w8spR:TJP28GE7mxtwrrlGWWK5QsOrFVz8zzzxvoBP2vvK3Qc",
-    "expire_date": "2026-04-18T04:41:49.256Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "oaas3pzyd7oso6xq16kktwd7m2be6ogo",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAQRf-FtSFQGR4u3fcbyAwDUjU0Ke3K-O_apAvd3nPOfYmI21rj1vMSJxYXocXpdyNMj9x2wHdst1mmua3LRHJX5EG7HGfOz-vh_h1U7PVbD0Xp4DUWC0zGKAwIJhRn2SJRPgMGjegLOFd4UIlQJwBPgcgo4714fwDrnDgx:1w768O:LgClcYM-Yi1OVXT6yCMWXEaNRwT93quUHdcW40gBbgc",
-    "expire_date": "2026-04-13T06:30:00.179Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "oupw9zf0lhn9xtade68ozzee2uh1pwme",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAQRf-FtSFQGR4u3fcbyAwDUjU0Ke3K-O_apAvd3nPOfYmI21rj1vMSJxYXocXpdyNMj9x2wHdst1mmua3LRHJX5EG7HGfOz-vh_h1U7PVbD0Xp4DUWC0zGKAwIJhRn2SJRPgMGjegLOFd4UIlQJwBPgcgo4714fwDrnDgx:1w6lXF:IfGfv0TTC8PBCcP0v3jLt8D6KKXrQQjpJr9_MDqoA_s",
-    "expire_date": "2026-04-12T08:30:17.853Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "pod64c517uv97hh4z2etupowglirz0hn",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1wA2Ts:1ex9M8m1qqrp7maOqRizTEPMu5IvTGj7qDAtEkOycic",
-    "expire_date": "2026-04-21T09:12:20.318Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "pp7524dmml5elaua6shtlhd8cnotxivx",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAQRf-FtSFQGR4u3fcbyAwDUjU0Ke3K-O_apAvd3nPOfYmI21rj1vMSJxYXocXpdyNMj9x2wHdst1mmua3LRHJX5EG7HGfOz-vh_h1U7PVbD0Xp4DUWC0zGKAwIJhRn2SJRPgMGjegLOFd4UIlQJwBPgcgo4714fwDrnDgx:1w6MNH:qtB3-rupC_BlzTkrnWRvfu8s7oqfqUcXK4ZoFk6Uj3c",
-    "expire_date": "2026-04-11T05:38:19.160Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "tblpetsnwdw84ggj6wx3fjsz0f876isk",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1vy5Zl:hMuz66KgxL88_aRo32iY63QZ7vTOoMgslJjVCW9tuwo",
-    "expire_date": "2026-03-19T10:05:01.278Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "ufj6ywn9v3myfypgaa42zc5v94b7x3v2",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1w9yuT:E_TdHK2IQYZiYkNA0pXF7KMbzAK7prgbYVs2vNRvlIM",
-    "expire_date": "2026-04-21T05:23:33.701Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "ulnb22la2d6mhqq5w7o5agh7q3zn2di5",
-  "fields": {
-    "session_data": ".eJxVjDsOwjAQRO_iGln-rjElPWew1p_FAWRLcVIh7k4ipYBqpHlv5s0CrksN6yhzmDK7MMlOv13E9CxtB_mB7d556m2Zp8h3hR908FvP5XU93L-DiqNua3QRlNDJ0hkdQJE6S0FW-oykNGRtIzijbCIqBdKWSqIhYyIIT16wzxfj-zgB:1vweL9:fX9iD_bx7Jds4Sw8p7q0kRtm-V9Fd8Hj-WV7qqe8u98",
-    "expire_date": "2026-03-15T10:47:59.850Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "uokle3o1eilr271ft2aylrl37feq6466",
-  "fields": {
-    "session_data": ".eJxVjMEOwiAQBf-FsyHAAgWP3v0GwsIiVQNJaU_Gf9cmPej1zcx7sRC3tYZt0BLmzM5MstPvhjE9qO0g32O7dZ56W5cZ-a7wgw5-7Zmel8P9O6hx1G_tXEmkclYFBWkDvqBF5cTkjZmEj9467b2kZECjFkUDRGctEGlp0AF7fwDePjcv:1wCiMv:n9ajUUysOeC2TRVcNv62k3rnSmKjwOojwxaj6Kp9PAk",
-    "expire_date": "2026-04-28T18:20:13.063Z"
-  }
-},
-{
   "model": "accounts.user",
   "pk": 1,
   "fields": {
@@ -342,7 +150,9 @@
   "model": "accounts.userprofile",
   "pk": 13,
   "fields": {
-    "user": 1,
+    "user": [
+      "vermaadiitya13678@gmail.com"
+    ],
     "profile_picture": "",
     "cover_photo": "",
     "address": null,
@@ -361,7 +171,9 @@
   "model": "accounts.userprofile",
   "pk": 18,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "profile_picture": "users/profile_pictures/images.png",
     "cover_photo": "users/cover_photos/download_4.jpg",
     "address": "Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, 201310, India",
@@ -380,7 +192,9 @@
   "model": "accounts.userprofile",
   "pk": 19,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "profile_picture": "users/profile_pictures/profile-pic_biryaniBlues.png",
     "cover_photo": "users/cover_photos/83891725809a1ade629dc60ac9a5a1a8.avif",
     "address": "Varanasi, Sadar, Varanasi, Uttar Pradesh, 221001, India",
@@ -399,7 +213,9 @@
   "model": "accounts.userprofile",
   "pk": 20,
   "fields": {
-    "user": 23,
+    "user": [
+      "adityaaverma534534@gmail.com"
+    ],
     "profile_picture": "users/profile_pictures/ChatGPT_Image_Mar_28_2026_12_23_40_PM.png",
     "cover_photo": "users/cover_photos/Screenshot_2026-03-28_144108.png",
     "address": "Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, 201310, India",
@@ -418,7 +234,9 @@
   "model": "accounts.userprofile",
   "pk": 22,
   "fields": {
-    "user": 25,
+    "user": [
+      "lilav29553@izkat.com"
+    ],
     "profile_picture": "",
     "cover_photo": "",
     "address": null,
@@ -437,7 +255,9 @@
   "model": "accounts.userprofile",
   "pk": 23,
   "fields": {
-    "user": 26,
+    "user": [
+      "ledav35289@flownue.com"
+    ],
     "profile_picture": "users/profile_pictures/burgerking-logo.png",
     "cover_photo": "users/cover_photos/download_3.jpg",
     "address": "Haryana, India",
@@ -456,7 +276,9 @@
   "model": "accounts.userprofile",
   "pk": 27,
   "fields": {
-    "user": 30,
+    "user": [
+      "hisimof366@sskaid.com"
+    ],
     "profile_picture": "users/profile_pictures/mcdonalds-logo-design-template-c03c253e9d3c73bacdf4d3499e6a0b72_s_vS4hVhu.jpg",
     "cover_photo": "users/cover_photos/cover-photo24-150x150.jpg",
     "address": "Noida, Dadri, Gautam Buddha Nagar, Uttar Pradesh, India",
@@ -475,7 +297,9 @@
   "model": "vendor.vendor",
   "pk": 4,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "user_profile": 19,
     "vendor_name": "Biryani Blues",
     "vendor_slug": "biryani-blues",
@@ -489,7 +313,9 @@
   "model": "vendor.vendor",
   "pk": 5,
   "fields": {
-    "user": 23,
+    "user": [
+      "adityaaverma534534@gmail.com"
+    ],
     "user_profile": 20,
     "vendor_name": "The Social Plate",
     "vendor_slug": "the-social-plate",
@@ -503,7 +329,9 @@
   "model": "vendor.vendor",
   "pk": 7,
   "fields": {
-    "user": 26,
+    "user": [
+      "ledav35289@flownue.com"
+    ],
     "user_profile": 23,
     "vendor_name": "Burger King",
     "vendor_slug": "burger-king-26",
@@ -517,7 +345,9 @@
   "model": "vendor.vendor",
   "pk": 11,
   "fields": {
-    "user": 30,
+    "user": [
+      "hisimof366@sskaid.com"
+    ],
     "user_profile": 27,
     "vendor_name": "McDonald's",
     "vendor_slug": "mcdonalds-30",
@@ -1138,7 +968,9 @@
   "model": "marketplace.cart",
   "pk": 31,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "fooditems": 12,
     "quantity": 4,
     "created_at": "2026-03-31T08:46:19.212Z",
@@ -1149,7 +981,9 @@
   "model": "marketplace.cart",
   "pk": 32,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "fooditems": 13,
     "quantity": 1,
     "created_at": "2026-03-31T08:46:21.264Z",
@@ -1160,7 +994,9 @@
   "model": "marketplace.cart",
   "pk": 33,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "fooditems": 8,
     "quantity": 1,
     "created_at": "2026-03-31T08:46:24.926Z",
@@ -1171,7 +1007,9 @@
   "model": "marketplace.cart",
   "pk": 51,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "fooditems": 22,
     "quantity": 1,
     "created_at": "2026-04-13T17:43:31.209Z",
@@ -1182,7 +1020,9 @@
   "model": "marketplace.cart",
   "pk": 52,
   "fields": {
-    "user": 22,
+    "user": [
+      "work16812@gmail.com"
+    ],
     "fooditems": 23,
     "quantity": 1,
     "created_at": "2026-04-13T17:43:32.905Z",
@@ -1193,7 +1033,9 @@
   "model": "marketplace.cart",
   "pk": 61,
   "fields": {
-    "user": 25,
+    "user": [
+      "lilav29553@izkat.com"
+    ],
     "fooditems": 12,
     "quantity": 1,
     "created_at": "2026-04-14T16:39:04.823Z",
@@ -1204,7 +1046,9 @@
   "model": "marketplace.cart",
   "pk": 62,
   "fields": {
-    "user": 25,
+    "user": [
+      "lilav29553@izkat.com"
+    ],
     "fooditems": 13,
     "quantity": 1,
     "created_at": "2026-04-14T16:39:06.624Z",
@@ -1215,7 +1059,9 @@
   "model": "marketplace.cart",
   "pk": 76,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditems": 20,
     "quantity": 1,
     "created_at": "2026-04-15T06:30:25.383Z",
@@ -1244,7 +1090,9 @@
   "model": "orders.payment",
   "pk": 1,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "44855451CW0792059",
     "payment_method": "PayPal",
     "amount": "194.88",
@@ -1256,7 +1104,9 @@
   "model": "orders.payment",
   "pk": 2,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "0UR159773G4530614",
     "payment_method": "PayPal",
     "amount": "114.83",
@@ -1268,7 +1118,9 @@
   "model": "orders.payment",
   "pk": 3,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "03M645117A441930E",
     "payment_method": "PayPal",
     "amount": "461.68",
@@ -1280,7 +1132,9 @@
   "model": "orders.payment",
   "pk": 4,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "pay_SdKdtmm4SkgnaR",
     "payment_method": "RazorPay",
     "amount": "34.79",
@@ -1292,7 +1146,9 @@
   "model": "orders.payment",
   "pk": 5,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "pay_SdLYzJEST86EiT",
     "payment_method": "RazorPay",
     "amount": "264.48",
@@ -1304,7 +1160,9 @@
   "model": "orders.payment",
   "pk": 6,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "pay_SdRW9Uf4ccdUXH",
     "payment_method": "RazorPay",
     "amount": "438.48",
@@ -1316,7 +1174,9 @@
   "model": "orders.payment",
   "pk": 7,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "pay_SdSHWxpSy1QhdQ",
     "payment_method": "RazorPay",
     "amount": "633.36",
@@ -1328,7 +1188,9 @@
   "model": "orders.payment",
   "pk": 8,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "transaction_id": "pay_SdfUkqthadRpiY",
     "payment_method": "RazorPay",
     "amount": "713.4",
@@ -1340,7 +1202,9 @@
   "model": "orders.order",
   "pk": 29,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 1,
     "order_number": "2026041316064229",
     "first_name": "Jhon",
@@ -1374,7 +1238,9 @@
   "model": "orders.order",
   "pk": 32,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041316135632",
     "first_name": "Jhon",
@@ -1408,7 +1274,9 @@
   "model": "orders.order",
   "pk": 35,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 2,
     "order_number": "2026041316193035",
     "first_name": "Jhon",
@@ -1442,7 +1310,9 @@
   "model": "orders.order",
   "pk": 36,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 3,
     "order_number": "2026041414381136",
     "first_name": "Jhon",
@@ -1476,7 +1346,9 @@
   "model": "orders.order",
   "pk": 37,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414404037",
     "first_name": "Jhon",
@@ -1510,7 +1382,9 @@
   "model": "orders.order",
   "pk": 38,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414484738",
     "first_name": "Jhon",
@@ -1544,7 +1418,9 @@
   "model": "orders.order",
   "pk": 39,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414490439",
     "first_name": "Jhon",
@@ -1578,7 +1454,9 @@
   "model": "orders.order",
   "pk": 40,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414494240",
     "first_name": "Jhon",
@@ -1612,7 +1490,9 @@
   "model": "orders.order",
   "pk": 41,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414504341",
     "first_name": "Jhon",
@@ -1646,7 +1526,9 @@
   "model": "orders.order",
   "pk": 42,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041414505242",
     "first_name": "Jhon",
@@ -1680,7 +1562,9 @@
   "model": "orders.order",
   "pk": 43,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041415103843",
     "first_name": "Jhon",
@@ -1714,7 +1598,9 @@
   "model": "orders.order",
   "pk": 44,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041415111444",
     "first_name": "Jhon",
@@ -1748,7 +1634,9 @@
   "model": "orders.order",
   "pk": 45,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041415123245",
     "first_name": "Jhon",
@@ -1782,7 +1670,9 @@
   "model": "orders.order",
   "pk": 46,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041415124346",
     "first_name": "Jhon",
@@ -1816,7 +1706,9 @@
   "model": "orders.order",
   "pk": 47,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 4,
     "order_number": "2026041415223247",
     "first_name": "Jhon",
@@ -1850,7 +1742,9 @@
   "model": "orders.order",
   "pk": 48,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 5,
     "order_number": "2026041416224548",
     "first_name": "Jhon",
@@ -1888,7 +1782,9 @@
   "model": "orders.order",
   "pk": 49,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041417021449",
     "first_name": "Jhon",
@@ -1922,7 +1818,9 @@
   "model": "orders.order",
   "pk": 50,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041417185550",
     "first_name": "Jhon",
@@ -1956,7 +1854,9 @@
   "model": "orders.order",
   "pk": 51,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 6,
     "order_number": "2026041422122851",
     "first_name": "Jhon",
@@ -1992,7 +1892,9 @@
   "model": "orders.order",
   "pk": 52,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 7,
     "order_number": "2026041422241752",
     "first_name": "Jhon",
@@ -2029,7 +1931,9 @@
   "model": "orders.order",
   "pk": 53,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041511223653",
     "first_name": "Jhon",
@@ -2063,7 +1967,9 @@
   "model": "orders.order",
   "pk": 54,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": 8,
     "order_number": "2026041511532654",
     "first_name": "Jhon",
@@ -2101,7 +2007,9 @@
   "model": "orders.order",
   "pk": 55,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512003755",
     "first_name": "Jhon",
@@ -2135,7 +2043,9 @@
   "model": "orders.order",
   "pk": 56,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512041256",
     "first_name": "Jhon",
@@ -2169,7 +2079,9 @@
   "model": "orders.order",
   "pk": 57,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512050757",
     "first_name": "Jhon",
@@ -2203,7 +2115,9 @@
   "model": "orders.order",
   "pk": 58,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512052658",
     "first_name": "Jhon",
@@ -2237,7 +2151,9 @@
   "model": "orders.order",
   "pk": 59,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512055559",
     "first_name": "Jhon",
@@ -2271,7 +2187,9 @@
   "model": "orders.order",
   "pk": 60,
   "fields": {
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "payment": null,
     "order_number": "2026041512062560",
     "first_name": "Jhon",
@@ -2307,7 +2225,9 @@
   "fields": {
     "order": 29,
     "payment": 1,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 14,
     "quantity": 1,
     "price": 99.0,
@@ -2322,7 +2242,9 @@
   "fields": {
     "order": 29,
     "payment": 1,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 15,
     "quantity": 1,
     "price": 69.0,
@@ -2337,7 +2259,9 @@
   "fields": {
     "order": 35,
     "payment": 2,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 8,
     "quantity": 1,
     "price": 30.0,
@@ -2352,7 +2276,9 @@
   "fields": {
     "order": 35,
     "payment": 2,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 12,
     "quantity": 1,
     "price": 49.0,
@@ -2367,7 +2293,9 @@
   "fields": {
     "order": 35,
     "payment": 2,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 13,
     "quantity": 1,
     "price": 19.99,
@@ -2382,7 +2310,9 @@
   "fields": {
     "order": 36,
     "payment": 3,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 20,
     "quantity": 2,
     "price": 199.0,
@@ -2397,7 +2327,9 @@
   "fields": {
     "order": 47,
     "payment": 4,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 8,
     "quantity": 1,
     "price": 30.0,
@@ -2412,7 +2344,9 @@
   "fields": {
     "order": 48,
     "payment": 5,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 24,
     "quantity": 1,
     "price": 30.0,
@@ -2427,7 +2361,9 @@
   "fields": {
     "order": 48,
     "payment": 5,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 25,
     "quantity": 1,
     "price": 30.0,
@@ -2442,7 +2378,9 @@
   "fields": {
     "order": 48,
     "payment": 5,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 8,
     "quantity": 1,
     "price": 30.0,
@@ -2457,7 +2395,9 @@
   "fields": {
     "order": 48,
     "payment": 5,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 14,
     "quantity": 1,
     "price": 99.0,
@@ -2472,7 +2412,9 @@
   "fields": {
     "order": 48,
     "payment": 5,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 19,
     "quantity": 1,
     "price": 39.0,
@@ -2487,7 +2429,9 @@
   "fields": {
     "order": 51,
     "payment": 6,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 20,
     "quantity": 1,
     "price": 199.0,
@@ -2502,7 +2446,9 @@
   "fields": {
     "order": 51,
     "payment": 6,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 21,
     "quantity": 1,
     "price": 149.0,
@@ -2517,7 +2463,9 @@
   "fields": {
     "order": 51,
     "payment": 6,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 25,
     "quantity": 1,
     "price": 30.0,
@@ -2532,7 +2480,9 @@
   "fields": {
     "order": 52,
     "payment": 7,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 20,
     "quantity": 1,
     "price": 199.0,
@@ -2547,7 +2497,9 @@
   "fields": {
     "order": 52,
     "payment": 7,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 22,
     "quantity": 1,
     "price": 89.0,
@@ -2562,7 +2514,9 @@
   "fields": {
     "order": 52,
     "payment": 7,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 25,
     "quantity": 1,
     "price": 30.0,
@@ -2577,7 +2531,9 @@
   "fields": {
     "order": 52,
     "payment": 7,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 21,
     "quantity": 1,
     "price": 149.0,
@@ -2592,7 +2548,9 @@
   "fields": {
     "order": 52,
     "payment": 7,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 17,
     "quantity": 1,
     "price": 79.0,
@@ -2607,7 +2565,9 @@
   "fields": {
     "order": 54,
     "payment": 8,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 27,
     "quantity": 1,
     "price": 99.0,
@@ -2622,7 +2582,9 @@
   "fields": {
     "order": 54,
     "payment": 8,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 20,
     "quantity": 1,
     "price": 199.0,
@@ -2637,7 +2599,9 @@
   "fields": {
     "order": 54,
     "payment": 8,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 21,
     "quantity": 1,
     "price": 149.0,
@@ -2652,7 +2616,9 @@
   "fields": {
     "order": 54,
     "payment": 8,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 14,
     "quantity": 1,
     "price": 99.0,
@@ -2667,7 +2633,9 @@
   "fields": {
     "order": 54,
     "payment": 8,
-    "user": 21,
+    "user": [
+      "djangogreatkart2004@gmail.com"
+    ],
     "fooditem": 15,
     "quantity": 1,
     "price": 69.0,
