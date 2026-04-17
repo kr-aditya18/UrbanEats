@@ -5,6 +5,10 @@ Production settings for Render deployment.
 from .settings import *
 import os
 
+# ── Timezone ─────────────────────────────────────────────────────────────────
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True
+
 # ── Security ────────────────────────────────────────────────────────────────
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True

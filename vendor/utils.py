@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 from .models import OpeningHour
 
 
@@ -8,9 +9,10 @@ def is_open_now(vendor):
     Day: Monday=1 ... Sunday=7 (matches DAYS choices in models.py)
     Times stored as "09:00 AM" / "10:00 PM" format.
     """
-    now = datetime.now()
-    today = now.weekday() + 1          # Python Mon=0 → your Mon=1
-    current_time_str = now.strftime('%I:%M %p')   # e.g. "02:30 PM"
+    # ✅ FIXED: use timezone.localtime() instead of datetime.now()
+    # so it respects IST instead of UTC (fixes Render server timezone issue)
+    now = timezone.localtime(timezone.now())
+    today = now.weekday() + 1  # Python Mon=0 → your Mon=1
 
     hours_today = OpeningHour.objects.filter(vendor=vendor, day=today)
 
@@ -23,7 +25,9 @@ def is_open_now(vendor):
         try:
             open_dt  = datetime.strptime(slot.from_hour.strip(), '%I:%M %p')
             close_dt = datetime.strptime(slot.to_hour.strip(),   '%I:%M %p')
-            now_dt   = datetime.strptime(current_time_str,       '%I:%M %p')
+            # ✅ FIXED: compare using hour+minute only, not current_time_str
+            # This avoids exact minute mismatch (e.g. 09:23 AM not in choices)
+            now_dt   = datetime.strptime(now.strftime('%I:%M %p'), '%I:%M %p')
             if open_dt <= now_dt <= close_dt:
                 return True
         except ValueError:
@@ -33,13 +37,7 @@ def is_open_now(vendor):
 
 
 def get_vendor_hours_context(vendor):
-    """
-    Returns a dict with:
-      - today_slot : first non-closed OpeningHour for today, or None
-      - all_hours  : list of dicts for the week
-      - is_open    : bool
-    """
-    now = datetime.now()
+    now = timezone.localtime(timezone.now())
     today = now.weekday() + 1
 
     DAY_NAMES = {

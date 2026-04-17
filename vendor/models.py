@@ -16,8 +16,8 @@ class Vendor(models.Model):
     def __str__(self):
         return self.vendor_name
 
-    def save(self, *args, **kwargs):          
-        if self.pk is not None:               
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
             orig = Vendor.objects.filter(pk=self.pk).first()
             if orig and orig.is_approved != self.is_approved:
                 mail_template = 'accounts/emails/admin_approval_email.html'
@@ -31,29 +31,36 @@ class Vendor(models.Model):
                 else:
                     mail_subject = "We're sorry! You are not eligible for publishing your food menu on our marketplace."
                 send_notification(mail_subject, mail_template, context)
+        super().save(*args, **kwargs)
 
-        super().save(*args, **kwargs)         
+
 DAYS = [
-    (1,("Monday")),
-    (2,("Tuesday")),
-    (3,("Wednesday")),
-    (4,("Thrusday")),
-    (5,("Friday")),
-    (6,("Saterday")),
-    (7,("Sunday")),
-]     
+    (1, "Monday"),
+    (2, "Tuesday"),
+    (3, "Wednesday"),
+    (4, "Thursday"),
+    (5, "Friday"),
+    (6, "Saturday"),
+    (7, "Sunday"),
+]
 
-# HOURS_
-HOUR_OF_DAY_24 = [(time(h,m).strftime('%I:%M %p'),time(h,m).strftime('%I:%M %p'))for h in range(0,24) for m in range(0,31)]
+# ✅ FIXED: was range(0, 31) which generated every minute 0-30
+HOUR_OF_DAY_24 = [
+    (time(h, m).strftime('%I:%M %p'), time(h, m).strftime('%I:%M %p'))
+    for h in range(0, 24)
+    for m in (0, 30)
+]
+
+
 class OpeningHour(models.Model):
     vendor    = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     day       = models.IntegerField(choices=DAYS)
     from_hour = models.CharField(choices=HOUR_OF_DAY_24, max_length=10, blank=True)
     to_hour   = models.CharField(choices=HOUR_OF_DAY_24, max_length=10, blank=True)
     is_closed = models.BooleanField(default=False)
- 
+
     def __str__(self):
         return f"{self.get_day_display()} | {self.from_hour} – {self.to_hour}"
- 
+
     class Meta:
         ordering = ['day', 'from_hour']
