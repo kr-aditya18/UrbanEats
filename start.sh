@@ -6,10 +6,26 @@ python manage.py migrate \
     --settings=foodonline_main.settings_render \
     --noinput
 
-echo "==> Loading data..."
-python manage.py loaddata datadump.json \
-    --settings=foodonline_main.settings_render \
-    --ignorenonexistent
+echo "==> Creating superuser if not exists..."
+python manage.py shell --settings=foodonline_main.settings_render << 'EOF'
+import os
+from accounts.models import User
+email = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+if email and not User.objects.filter(email=email).exists():
+    u = User.objects.create_superuser(
+        first_name=os.environ.get('DJANGO_SUPERUSER_FIRST_NAME', ''),
+        last_name=os.environ.get('DJANGO_SUPERUSER_LAST_NAME', ''),
+        username=os.environ.get('DJANGO_SUPERUSER_USERNAME', ''),
+        email=email,
+        password=password
+    )
+    u.is_active = True
+    u.save()
+    print("Superuser created")
+else:
+    print("Superuser already exists")
+EOF
 
 echo "==> Starting Gunicorn..."
 exec gunicorn foodonline_main.wsgi:application \
